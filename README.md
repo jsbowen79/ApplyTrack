@@ -1,4 +1,11 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+ApplyTrack
+
+ApplyTrack is a next.js full-stack application that will help a user to track applications, resumes and deadlines for various jobs. ApplyTrack will be built by:
+
+Joseph Bowen
+Deborah Ndoka Okolocha
+Wilson Cardichon
+Gabriel Nwofoke
 
 ## Getting Started
 
