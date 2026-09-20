@@ -1,3 +1,15 @@
+import { Timestamp } from "next/dist/server/lib/cache-handlers/types";
+
+export interface Account {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  createdAt: Timestamp;
+}
+
+export type NewAccount = Omit<Account, "id" | "createdAt">;
+
 export type ApplicationStatus =
   | 'Applied'
   | 'Screening'
@@ -15,7 +27,7 @@ export interface FollowUpNote {
 
 export interface JobApplication {
   id: number;
-  userId: string;
+  userId: number;
   company: string;
   role: string;
   status: ApplicationStatus;
