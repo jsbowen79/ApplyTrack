@@ -13,8 +13,10 @@ const statusOptions: ApplicationStatus[] = [
   "Withdrawn",
 ];
 
-export default function UpdateApplication({ id }: { id: string }) {
+export default function UpdateApplication({ id }: { id: number }) {
   const [application, setApplication] = useState<Application | null>(null);
+  const [notFoundError, setNotFoundError] = useState(false);
+  const [loadError, setLoadError] = useState(false);
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
   const [status, setStatus] = useState<ApplicationStatus>("Applied");
@@ -23,25 +25,45 @@ export default function UpdateApplication({ id }: { id: string }) {
 
   useEffect(() => {
     async function loadApplication() {
-      const result = await getApplicationById(id);
-      if (result) {
-        setApplication(result);
-        setCompany(result.company);
-        setRole(result.role);
-        setStatus(result.status);
-        setNotes(result.notes ?? "");
+      try {
+        const result = await getApplicationById(id);
+        if (result) {
+          setApplication(result);
+          setCompany(result.company);
+          setRole(result.role);
+          setStatus(result.status);
+          setNotes(result.notes ?? "");
+        } else {
+          setNotFoundError(true);
+        }
+      } catch (error) {
+        console.error("Error loading application:", error);
+        setLoadError(true);
       }
     }
     loadApplication();
   }, [id]);
 
   async function handleUpdate() {
-    const result = await updateApplication(id, { company, role, status, notes });
-    if (result) {
-      setUpdateStatus("success");
-    } else {
+    try {
+      const result = await updateApplication(id, { company, role, status, notes });
+      if (result) {
+        setUpdateStatus("success");
+      } else {
+        setUpdateStatus("error");
+      }
+    } catch (error) {
+      console.error("Error updating application:", error);
       setUpdateStatus("error");
     }
+  }
+
+  if (loadError) {
+    return <p className="text-red-700">Failed to load application. Please try again later.</p>;
+  }
+
+  if (notFoundError) {
+    return <p className="text-red-700">Application not found.</p>;
   }
 
   if (!application) {

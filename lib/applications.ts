@@ -1,10 +1,10 @@
-import { Application } from './types';
+import { Application, ApplicationUpdate } from './types';
 
 // Temporary mock data until the team's database layer is finalized
 const mockApplications: Application[] = [
   {
-    id: '1',
-    userId: 'user1',
+    id: 1,
+    userId: 1,
     company: 'Acme Corp',
     role: 'Frontend Developer',
     status: 'Applied',
@@ -13,13 +13,13 @@ const mockApplications: Application[] = [
   },
 ];
 
-export async function getApplicationById(id: string): Promise<Application | null> {
+export async function getApplicationById(id: number): Promise<Application | null> {
   return mockApplications.find((a) => a.id === id) ?? null;
 }
 
 export async function updateApplication(
-  id: string,
-  updates: Partial<Application>
+  id: number,
+  updates: ApplicationUpdate
 ): Promise<Application | null> {
   const app = mockApplications.find((a) => a.id === id);
   if (!app) return null;

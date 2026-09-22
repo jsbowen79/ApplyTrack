@@ -16,7 +16,7 @@ export default async function EditApplicationPage({
   return (
     <section>
       <h3>Edit Application</h3>
-      <UpdateApplication id={id} />
+      <UpdateApplication id={Number(id)} />
     </section>
   );
 }

@@ -7,11 +7,18 @@ export type ApplicationStatus =
   | 'Withdrawn';
 
 export interface Application {
-  id: string;
-  userId: string;
+  id: number;
+  userId: number;
   company: string;
   role: string;
   status: ApplicationStatus;
   dateApplied: string;
   notes?: string;
 }
+
+export type ApplicationUpdate = {
+  company?: string;
+  role?: string;
+  status?: ApplicationStatus;
+  notes?: string;
+};
