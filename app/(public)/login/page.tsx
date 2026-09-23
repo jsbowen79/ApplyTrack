@@ -1,11 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginStatus, setLoginStatus] = useState("invalid");
+  const router = useRouter();
 
   async function logIn(e: React.SubmitEvent) {
     e.preventDefault();
@@ -15,8 +17,11 @@ export default function Login() {
       password,
       redirect: false,
     });
-    if (loggedIn?.ok) {
+
+    console.log("loggedIn: ", loggedIn);
+    if (loggedIn?.error === undefined) {
       setLoginStatus("valid");
+      router.push("/dashboard");
     } else {
       setLoginStatus("invalid");
     }
@@ -45,6 +50,7 @@ export default function Login() {
 
         <button type="submit">Log In</button>
       </form>
+      <p>Login Status: {loginStatus}</p>
     </div>
   );
 }
