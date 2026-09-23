@@ -3,6 +3,7 @@
 import AccountCreated from "./AccountCreated";
 import InvalidPassword from "./InvalidPassword";
 import InvalidEmail from "./InvalidEmail";
+import FormErrors from "./FormErrors";
 import { useState } from "react";
 import { Account } from "@/lib/types";
 import { registerAccount } from "@/lib/register";
@@ -13,22 +14,31 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [registrationStatus, setRegistrationStatus] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<{
+    name?: string[];
+    email?: string[];
+    password?: string[];
+  }>({});
   const [account, setAccount] = useState<Account | null>(null);
 
   async function register() {
+    setFieldErrors({});
     if (password !== confirm) {
       setRegistrationStatus("password");
+      return;
     } else {
-      const result: Account | null = await registerAccount(
-        name,
-        email,
-        password,
-      );
-      setAccount(result);
-      if (result == null) {
+      const result = await registerAccount(name, email, password);
+      if (result != null && "fieldErrors" in result) {
+        setRegistrationStatus("errors");
+        console.log("rendering errors");
+        setFieldErrors(result.fieldErrors);
+      } else if (result === null) {
         setRegistrationStatus("email");
+        console.log("rendering invalid email");
       } else {
         setRegistrationStatus("created");
+        setAccount(result);
+        console.log("Rendering success");
       }
     }
   }
@@ -41,6 +51,7 @@ export default function Register() {
         )}
         {registrationStatus === "email" && <InvalidEmail />}
         {registrationStatus === "password" && <InvalidPassword />}
+        {registrationStatus === "errors" && <FormErrors />}
       </div>
       {registrationStatus !== "created" && (
         <div>
@@ -51,6 +62,9 @@ export default function Register() {
             value={name}
             onChange={(event) => setName(event.target.value)}
           />
+          {fieldErrors.name && (
+            <p className="text-red-500">{fieldErrors.name[0]}</p>
+          )}
 
           <label htmlFor="email">Email</label>
           <input
@@ -59,6 +73,9 @@ export default function Register() {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
+          {fieldErrors.email && (
+            <p className="text-red-500">{fieldErrors.email[0]}</p>
+          )}
 
           <label htmlFor="password">Enter a password:</label>
           <input
@@ -67,6 +84,9 @@ export default function Register() {
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
+          {fieldErrors.password && (
+            <p className="text-red-500">{fieldErrors.password[0]}</p>
+          )}
 
           <label htmlFor="confirm">Confirm Password:</label>
           <input
