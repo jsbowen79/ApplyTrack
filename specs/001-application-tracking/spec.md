@@ -23,7 +23,7 @@ application records easy to create, review, update, and remove.
 personal record of companies, roles, application dates, statuses, and follow-up
 notes.
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Create and access an account (Priority: P1)
 
@@ -148,7 +148,7 @@ verify that an owned application no longer appears.
   retry.
 - A deleted record cannot be edited through an older open page or stale action.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -176,16 +176,17 @@ verify that an owned application no longer appears.
   and failure feedback for each workflow.
 - **FR-012**: The application MUST provide these CRUD endpoints:
 
-  | Method | Endpoint | Purpose | Priority |
-  | --- | --- | --- | --- |
-  | GET | `/api/applications` | List the signed-in user's applications | P1 |
-  | POST | `/api/applications` | Create an application | P1 |
-  | GET | `/api/applications/{id}` | Read one owned application | P1 |
-  | PATCH | `/api/applications/{id}` | Update an owned application | P1 |
-  | DELETE | `/api/applications/{id}` | Delete an owned application | P2 |
+  | Method | Endpoint                 | Purpose                                | Priority |
+  | ------ | ------------------------ | -------------------------------------- | -------- |
+  | GET    | `/api/applications`      | List the signed-in user's applications | P1       |
+  | POST   | `/api/applications`      | Create an application                  | P1       |
+  | GET    | `/api/applications/{id}` | Read one owned application             | P1       |
+  | PATCH  | `/api/applications/{id}` | Update an owned application            | P1       |
+  | DELETE | `/api/applications/{id}` | Delete an owned application            | P2       |
 
   These endpoints MUST enforce the same authentication, ownership, validation, and
   error-handling rules as the user interface.
+
 - **FR-013**: Authentication MUST use an approved hosted or project-compatible
   authentication provider. The provider choice and exact authentication routes or
   endpoint behavior MUST be determined during planning; this specification does not
@@ -197,7 +198,7 @@ verify that an owned application no longer appears.
   labels, visible focus states, and status communication that does not depend on
   color alone.
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **User**: A person with an account and private application records.
 - **Job Application**: A user's record of an opportunity, including company, role,
@@ -206,7 +207,7 @@ verify that an owned application no longer appears.
   Withdrawn.
 - **Follow-up Note**: Optional user-authored context associated with one application.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 
@@ -228,6 +229,8 @@ verify that an owned application no longer appears.
 
 ## Assumptions
 
+- Resume storage provides solely for storing an optional copy of a Resume without
+  allowing for edits or updates. This remains in scope.
 - Authentication will use Auth.js v5 or Clerk; the exact provider configuration and
   authentication endpoints will be selected during planning.
 - A user has one personal workspace and does not share application records with
@@ -235,7 +238,7 @@ verify that an owned application no longer appears.
 - The initial release supports the six defined statuses and does not include custom
   statuses.
 - Follow-up notes are plain text and belong to one application.
-- Reminders, notifications, attachments, resume management, analytics, imports,
+- Reminders, notifications, attachments (other than a single resume per application), resume management, analytics, imports,
   exports, and calendar integrations are out of scope for this MVP.
 - The initial release is responsive for common desktop and mobile screen sizes.
 - Persistence and authorization details will be selected during planning while
