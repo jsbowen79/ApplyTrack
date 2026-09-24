@@ -1,4 +1,5 @@
-import type { JobApplication } from './types';
+// lib/applications-db.ts
+import type { JobApplication, ApplicationUpdate } from './types';
 
 const applications: JobApplication[] = [
   { id: 1, userId: 1, company: 'Acme Corp', role: 'Frontend Developer', status: 'Applied', dateApplied: '2026-09-10', notes: [] },
@@ -12,4 +13,18 @@ const applications: JobApplication[] = [
 export async function getApplications(userId?: number): Promise<JobApplication[]> {
   if (userId) return applications.filter((a) => a.userId === userId);
   return applications;
+}
+
+export async function getApplicationById(id: number): Promise<JobApplication | null> {
+  return applications.find((a) => a.id === id) ?? null;
+}
+
+export async function updateApplication(
+  id: number,
+  updates: ApplicationUpdate
+): Promise<JobApplication | null> {
+  const app = applications.find((a) => a.id === id);
+  if (!app) return null;
+  Object.assign(app, updates);
+  return app;
 }
