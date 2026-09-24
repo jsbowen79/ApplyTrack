@@ -1,9 +1,15 @@
 import { NextResponse } from 'next/server';
+import { auth } from '@/lib/auth';
 import { getApplications } from '@/lib/applications-db';
 
 export async function GET() {
-  // TODO: once User Story 1 (authentication) lands, get the real signed-in
-  // user's id, filter by it, and return 401 for unauthenticated requests (FR-009).
-  const applications = await getApplications();
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+  // session.user.id is a string (see types/next-auth.d.ts + auth.ts's authorize()),
+  // but our applications are keyed by numeric userId — convert here.
+  const userId = Number(session.user.id);
+  const applications = await getApplications(userId);
   return NextResponse.json({ applications });
 }
