@@ -9,12 +9,12 @@ export interface Account {
 export type NewAccount = Omit<Account, "id" | "createdAt">;
 
 export type ApplicationStatus =
-  | 'Applied'
-  | 'Screening'
-  | 'Interview'
-  | 'Offer'
-  | 'Rejected'
-  | 'Withdrawn';
+  | "Applied"
+  | "Screening"
+  | "Interview"
+  | "Offer"
+  | "Rejected"
+  | "Withdrawn";
 
 export interface FollowUpNote {
   id: number;
