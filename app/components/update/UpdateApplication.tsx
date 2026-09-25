@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Application, ApplicationStatus } from "@/lib/types";
-import { getApplicationById, updateApplication } from "@/lib/applications";
+import { JobApplication, ApplicationStatus } from "@/lib/types";
+import { getApplicationById, updateApplication } from "@/lib/applications-db";
 
 const statusOptions: ApplicationStatus[] = [
   "Applied",
@@ -14,13 +14,12 @@ const statusOptions: ApplicationStatus[] = [
 ];
 
 export default function UpdateApplication({ id }: { id: number }) {
-  const [application, setApplication] = useState<Application | null>(null);
+  const [application, setApplication] = useState<JobApplication | null>(null);
   const [notFoundError, setNotFoundError] = useState(false);
   const [loadError, setLoadError] = useState(false);
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
   const [status, setStatus] = useState<ApplicationStatus>("Applied");
-  const [notes, setNotes] = useState("");
   const [updateStatus, setUpdateStatus] = useState("");
 
   useEffect(() => {
@@ -32,7 +31,6 @@ export default function UpdateApplication({ id }: { id: number }) {
           setCompany(result.company);
           setRole(result.role);
           setStatus(result.status);
-          setNotes(result.notes ?? "");
         } else {
           setNotFoundError(true);
         }
@@ -46,7 +44,7 @@ export default function UpdateApplication({ id }: { id: number }) {
 
   async function handleUpdate() {
     try {
-      const result = await updateApplication(id, { company, role, status, notes });
+      const result = await updateApplication(id, { company, role, status });
       if (result) {
         setUpdateStatus("success");
       } else {
@@ -114,14 +112,18 @@ export default function UpdateApplication({ id }: { id: number }) {
         </select>
       </div>
 
-      <div>
-        <label htmlFor="notes">Notes</label>
-        <textarea
-          id="notes"
-          value={notes}
-          onChange={(event) => setNotes(event.target.value)}
-        />
-      </div>
+      {/* Follow-up notes now live on their own entity (FollowUpNote[]),
+          so editing them belongs in a separate feature, not this form. */}
+      {application.notes && application.notes.length > 0 && (
+        <div>
+          <p className="font-medium">Notes</p>
+          <ul className="list-disc pl-5 text-sm text-slate-600">
+            {application.notes.map((note) => (
+              <li key={note.id}>{note.content}</li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <button onClick={handleUpdate}>Save Changes</button>
     </section>
