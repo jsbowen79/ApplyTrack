@@ -20,7 +20,6 @@ export default function UpdateApplication({ id }: { id: number }) {
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
   const [status, setStatus] = useState<ApplicationStatus>("Applied");
-  const [notes, setNotes] = useState("");
   const [updateStatus, setUpdateStatus] = useState("");
 
   useEffect(() => {
@@ -32,7 +31,6 @@ export default function UpdateApplication({ id }: { id: number }) {
           setCompany(result.company);
           setRole(result.role);
           setStatus(result.status);
-          setNotes(result.notes ?? "");
         } else {
           setNotFoundError(true);
         }
@@ -46,7 +44,7 @@ export default function UpdateApplication({ id }: { id: number }) {
 
   async function handleUpdate() {
     try {
-      const result = await updateApplication(id, { company, role, status, notes });
+      const result = await updateApplication(id, { company, role, status });
       if (result) {
         setUpdateStatus("success");
       } else {
@@ -112,15 +110,6 @@ export default function UpdateApplication({ id }: { id: number }) {
             </option>
           ))}
         </select>
-      </div>
-
-      <div>
-        <label htmlFor="notes">Notes</label>
-        <textarea
-          id="notes"
-          value={notes}
-          onChange={(event) => setNotes(event.target.value)}
-        />
       </div>
 
       <button onClick={handleUpdate}>Save Changes</button>

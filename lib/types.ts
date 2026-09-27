@@ -1,10 +1,20 @@
+export interface Account {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  createdAt: string;
+}
+
+export type NewAccount = Pick<Account, 'name' | 'email' | 'password'>;
+
 export type ApplicationStatus =
-  | "Applied"
-  | "Screening"
-  | "Interview"
-  | "Offer"
-  | "Rejected"
-  | "Withdrawn";
+  | 'Applied'
+  | 'Screening'
+  | 'Interview'
+  | 'Offer'
+  | 'Rejected'
+  | 'Withdrawn';
 
 export interface Application {
   id: number;
@@ -13,24 +23,14 @@ export interface Application {
   role: string;
   status: ApplicationStatus;
   dateApplied: string;
-  notes?: string;
+  resume?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type ApplicationUpdate = {
   company?: string;
   role?: string;
   status?: ApplicationStatus;
-  notes?: string;
+  resume?: string;
 };
-
-import { Timestamp } from "next/dist/server/lib/cache-handlers/types";
-
-export interface Account {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-  createdAt: Timestamp;
-}
-
-export type NewAccount = Omit<Account, "id" | "createdAt">;

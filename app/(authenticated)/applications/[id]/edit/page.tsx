@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import UpdateApplication from "@/app/components/update/UpdateApplication";
 
 export const metadata: Metadata = {
-  title: "ApplyTrack - Edit Application",
-  description: "Update the details of a job application",
+  title: "Edit Application | ApplyTrack",
+  description: "Update the company, role, and status of your job application.",
 };
 
 export default async function EditApplicationPage({
