@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { JobApplication, ApplicationStatus } from "@/lib/types";
-import { getApplicationById, updateApplication } from "@/lib/applications-db";
+import { fetchApplication, saveApplicationUpdate } from "@/lib/actions";
 
 const statusOptions: ApplicationStatus[] = [
   "Applied",
@@ -25,7 +25,7 @@ export default function UpdateApplication({ id }: { id: number }) {
   useEffect(() => {
     async function loadApplication() {
       try {
-        const result = await getApplicationById(id);
+        const result = await fetchApplication(id);
         if (result) {
           setApplication(result);
           setCompany(result.company);
@@ -44,7 +44,7 @@ export default function UpdateApplication({ id }: { id: number }) {
 
   async function handleUpdate() {
     try {
-      const result = await updateApplication(id, { company, role, status });
+      const result = await saveApplicationUpdate(id, { company, role, status });
       if (result) {
         setUpdateStatus("success");
       } else {
