@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Application, ApplicationStatus } from "@/lib/types";
-import { getApplicationById, updateApplication } from "@/lib/applications";
+import { JobApplication, ApplicationStatus } from "@/lib/types";
+import { fetchApplication, saveApplicationUpdate } from "@/lib/actions";
 
 const statusOptions: ApplicationStatus[] = [
   "Applied",
@@ -14,7 +14,7 @@ const statusOptions: ApplicationStatus[] = [
 ];
 
 export default function UpdateApplication({ id }: { id: number }) {
-  const [application, setApplication] = useState<Application | null>(null);
+  const [application, setApplication] = useState<JobApplication | null>(null);
   const [notFoundError, setNotFoundError] = useState(false);
   const [loadError, setLoadError] = useState(false);
   const [company, setCompany] = useState("");
@@ -25,7 +25,7 @@ export default function UpdateApplication({ id }: { id: number }) {
   useEffect(() => {
     async function loadApplication() {
       try {
-        const result = await getApplicationById(id);
+        const result = await fetchApplication(id);
         if (result) {
           setApplication(result);
           setCompany(result.company);
@@ -44,7 +44,7 @@ export default function UpdateApplication({ id }: { id: number }) {
 
   async function handleUpdate() {
     try {
-      const result = await updateApplication(id, { company, role, status });
+      const result = await saveApplicationUpdate(id, { company, role, status });
       if (result) {
         setUpdateStatus("success");
       } else {
@@ -111,6 +111,17 @@ export default function UpdateApplication({ id }: { id: number }) {
           ))}
         </select>
       </div>
+
+      {application.notes && application.notes.length > 0 && (
+        <div>
+          <p className="font-medium">Notes</p>
+          <ul className="list-disc pl-5 text-sm text-slate-600">
+            {application.notes.map((note) => (
+              <li key={note.id}>{note.content}</li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <button onClick={handleUpdate}>Save Changes</button>
     </section>
