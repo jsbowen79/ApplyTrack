@@ -1,75 +1,38 @@
-﻿import Link from "next/link";
-import { redirect } from "next/navigation";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
-import { getApplicationsByUser } from "@/lib/applications";
+import { redirect } from "next/navigation";
+import { getApplications } from "@/lib/applications-db";
+import ApplicationCard from "@/app/components/dashboard/ApplicationCard";
 
-export default async function Dashboard() {
+export default async function DashboardPage() {
   const session = await auth();
+  if (!session?.user?.id) redirect("/login");
 
-  if (!session?.user?.id) {
-    redirect("/login");
-  }
-
-  const applications = await getApplicationsByUser(
-    Number(session.user.id),
-  );
+  const userId = Number(session.user.id);
+  const applications = await getApplications(userId);
 
   return (
-    <section className="space-y-6">
-      <div className="flex items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold">Dashboard</h1>
-          <p className="mt-1">
-            Track your job applications.
-          </p>
-        </div>
-
-        <Link
-          href="/applications/new"
-          className="rounded-md px-4 py-2 font-medium shadow"
-        >
-          Add Application
-        </Link>
-      </div>
-
+    <main className="max-w-4xl mx-auto px-4 py-8">
+      <h1 className="text-2xl font-bold mb-6">Track your job applications</h1>
       {applications.length === 0 ? (
-        <div className="rounded-lg border p-6">
-          <h2 className="font-semibold">No applications yet</h2>
-          <p className="mt-2">
-            Add your first job application to start tracking your search.
+        <div className="text-center py-16 border border-dashed border-slate-300 rounded-[10px_0_10px_0]">
+          <p className="text-slate-600 mb-4">
+            You haven&apos;t added any applications yet.
           </p>
+          <Link
+            href="/applications/new"
+            className="inline-block rounded-[8px_0_8px_0] bg-indigo-600 text-white px-5 py-2.5 font-semibold hover:bg-indigo-700"
+          >
+            Add your first application
+          </Link>
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-left">
-            <thead>
-              <tr className="border-b">
-                <th className="p-3">Company</th>
-                <th className="p-3">Role</th>
-                <th className="p-3">Status</th>
-                <th className="p-3">Date Applied</th>
-                <th className="p-3">Notes</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {applications.map((application) => (
-                <tr key={application.id} className="border-b">
-                  <td className="p-3">{application.company}</td>
-                  <td className="p-3">{application.role}</td>
-                  <td className="p-3">{application.status}</td>
-                  <td className="p-3">
-                    {String(application.dateApplied)}
-                  </td>
-                  <td className="p-3">
-                    {application.notes || "—"}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="space-y-4">
+          {applications.map((app) => (
+            <ApplicationCard key={app.id} application={app} />
+          ))}
         </div>
       )}
-    </section>
+    </main>
   );
 }

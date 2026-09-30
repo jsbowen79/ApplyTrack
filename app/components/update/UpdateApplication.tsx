@@ -1,8 +1,12 @@
 "use client";
-
+import FollowUpNotes from "./FollowUpNotes";
 import { useState, useEffect } from "react";
-import { Application, ApplicationStatus } from "@/lib/types";
-import { getApplicationById, updateApplication } from "@/lib/applications";
+import { JobApplication, ApplicationStatus } from "@/lib/types";
+import {
+  fetchApplication,
+  saveApplicationUpdate,
+  uploadApplicationResume,
+} from "@/lib/actions";
 
 const statusOptions: ApplicationStatus[] = [
   "Applied",
@@ -14,25 +18,24 @@ const statusOptions: ApplicationStatus[] = [
 ];
 
 export default function UpdateApplication({ id }: { id: number }) {
-  const [application, setApplication] = useState<Application | null>(null);
+  const [application, setApplication] = useState<JobApplication | null>(null);
   const [notFoundError, setNotFoundError] = useState(false);
   const [loadError, setLoadError] = useState(false);
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
   const [status, setStatus] = useState<ApplicationStatus>("Applied");
-  const [notes, setNotes] = useState("");
   const [updateStatus, setUpdateStatus] = useState("");
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
 
   useEffect(() => {
     async function loadApplication() {
       try {
-        const result = await getApplicationById(id);
+        const result = await fetchApplication(id);
         if (result) {
           setApplication(result);
           setCompany(result.company);
           setRole(result.role);
           setStatus(result.status);
-          setNotes(result.notes ?? "");
         } else {
           setNotFoundError(true);
         }
@@ -46,7 +49,10 @@ export default function UpdateApplication({ id }: { id: number }) {
 
   async function handleUpdate() {
     try {
-      const result = await updateApplication(id, { company, role, status, notes });
+      const result = await saveApplicationUpdate(id, { company, role, status });
+      if (resumeFile) {
+        await uploadApplicationResume(id, resumeFile);
+      }
       if (result) {
         setUpdateStatus("success");
       } else {
@@ -59,7 +65,11 @@ export default function UpdateApplication({ id }: { id: number }) {
   }
 
   if (loadError) {
-    return <p className="text-red-700">Failed to load application. Please try again later.</p>;
+    return (
+      <p className="text-red-700">
+        Failed to load application. Please try again later.
+      </p>
+    );
   }
 
   if (notFoundError) {
@@ -76,7 +86,9 @@ export default function UpdateApplication({ id }: { id: number }) {
         <p className="text-green-700">Application updated successfully.</p>
       )}
       {updateStatus === "error" && (
-        <p className="text-red-700">Failed to update application. Please try again.</p>
+        <p className="text-red-700">
+          Failed to update application. Please try again.
+        </p>
       )}
 
       <div>
@@ -104,7 +116,9 @@ export default function UpdateApplication({ id }: { id: number }) {
         <select
           id="status"
           value={status}
-          onChange={(event) => setStatus(event.target.value as ApplicationStatus)}
+          onChange={(event) =>
+            setStatus(event.target.value as ApplicationStatus)
+          }
         >
           {statusOptions.map((option) => (
             <option key={option} value={option}>
@@ -115,13 +129,31 @@ export default function UpdateApplication({ id }: { id: number }) {
       </div>
 
       <div>
-        <label htmlFor="notes">Notes</label>
-        <textarea
-          id="notes"
-          value={notes}
-          onChange={(event) => setNotes(event.target.value)}
+        <label htmlFor="resume">Resume</label>
+        <input
+          type="file"
+          id="resume"
+          onChange={(event) => setResumeFile(event.target.files?.[0] ?? null)}
         />
+        {application.resume && (
+          <div>
+            <p className="text-sm text-slate-600">
+              Current resume: {application.resume.split("/").pop()}
+            </p>
+            <a
+              href={`/api/applications/${id}/resume`}
+              className="text-indigo-600 underline"
+            >
+              Download Resume
+            </a>
+          </div>
+        )}
       </div>
+
+      <FollowUpNotes applicationId={id} />
+
+      {/* Follow-up notes now live on their own entity (FollowUpNote[]),
+          so editing them belongs in a separate feature, not this form. */}
 
       <button onClick={handleUpdate}>Save Changes</button>
     </section>
