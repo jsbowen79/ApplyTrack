@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { JobApplication } from '@/lib/types';
 
 const statusStyles: Record<JobApplication['status'], string> = {
@@ -11,7 +12,10 @@ const statusStyles: Record<JobApplication['status'], string> = {
 
 export default function ApplicationCard({ application }: { application: JobApplication }) {
   return (
-    <div className="flex items-center justify-between rounded-[10px_0_10px_0] border border-slate-200 bg-white p-4">
+    <Link
+      href={`/applications/${application.id}/edit`}
+      className="flex items-center justify-between rounded-[10px_0_10px_0] border border-slate-200 bg-white p-4 hover:border-slate-300 transition-colors"
+    >
       <div>
         <p className="font-semibold text-slate-900">{application.company}</p>
         <p className="text-sm text-slate-600">{application.role}</p>
@@ -20,6 +24,6 @@ export default function ApplicationCard({ application }: { application: JobAppli
       <span className={`text-xs font-semibold px-3 py-1 rounded-full ${statusStyles[application.status]}`}>
         {application.status}
       </span>
-    </div>
+    </Link>
   );
 }

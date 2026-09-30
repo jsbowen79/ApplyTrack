@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { getApplications } from '@/lib/applications-db';
@@ -16,6 +17,12 @@ export default async function DashboardPage() {
       {applications.length === 0 ? (
         <div className="text-center py-16 border border-dashed border-slate-300 rounded-[10px_0_10px_0]">
           <p className="text-slate-600 mb-4">You haven&apos;t added any applications yet.</p>
+          <Link
+            href="/applications/new"
+            className="inline-block rounded-[8px_0_8px_0] bg-indigo-600 text-white px-5 py-2.5 font-semibold hover:bg-indigo-700"
+          >
+            Add your first application
+          </Link>
         </div>
       ) : (
         <div className="space-y-4">
