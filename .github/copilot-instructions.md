@@ -2,9 +2,7 @@
 
 ## Project Overview
 
-<<<<<<< HEAD
-ApplyTrack is a WDD 430 full-stack web application that helps job seekers
-track job applications.
+ApplyTrack is a WDD 430 full-stack web application that helps job seekers track their job applications.
 
 Users can:
 
@@ -15,6 +13,7 @@ Users can:
 - Edit applications
 - Update application status
 - Add follow-up notes
+- Store resume information
 - Delete applications
 
 Application data must remain private to the authenticated user.
@@ -26,7 +25,7 @@ Application data must remain private to the authenticated user.
 - TypeScript 5
 - Tailwind CSS 4
 - Next.js App Router
-- Auth.js / NextAuth v5
+- Auth.js v5 (NextAuth)
 - Neon PostgreSQL
 - @neondatabase/serverless
 - bcryptjs
@@ -36,8 +35,7 @@ Use strict TypeScript.
 
 Do not use `any` unless there is a documented and unavoidable reason.
 
-Do not introduce another database, ORM, authentication provider, or major
-framework without team approval.
+Do not introduce another database, ORM, authentication provider, or major framework without team approval.
 
 ## Project Structure
 
@@ -54,34 +52,35 @@ Main locations include:
 - `specs/` - project specifications and requirements
 - `.github/` - GitHub and Copilot configuration
 
-Follow the existing folder structure.
+Follow the existing folder structure and established project organization.
 
-Do not move existing files or create a new architecture unless required by
-the project.
+Before creating new files or directories, check the existing project structure and follow its patterns.
+
+Do not move existing files or introduce a new application architecture unless required by the project.
 
 ## Authentication
 
-Authentication uses Auth.js / NextAuth v5.
+Authentication uses Auth.js v5.
+
+The project includes its own user/account database records and registration flow. Passwords must be securely hashed using the existing bcryptjs implementation.
 
 Protected application functionality must require an authenticated user.
 
-Application records must always be associated with the authenticated user's
-ID.
+Application records must always be associated with the authenticated user's ID.
 
-Never allow a user to read, create, update, or delete another user's
-application.
+Users must only be able to access their own application records.
 
-Passwords must be securely hashed using the existing bcryptjs implementation.
+Never allow a user to read, create, update, or delete another user's application.
 
 Do not replace Auth.js with Clerk or another authentication provider.
 
 ## Application Data Model
 
-The application TypeScript type is defined in:
+The primary Application type is defined in:
 
 `lib/types.ts`
 
-The Application entity contains:
+The Application entity includes information such as:
 
 - `id`
 - `userId`
@@ -90,6 +89,11 @@ The Application entity contains:
 - `status`
 - `dateApplied`
 - `notes`
+- Resume information
+
+Follow-up notes are maintained as a separate entity associated with an application.
+
+Use the existing `Application` and `FollowUpNote` types rather than creating duplicate interfaces.
 
 The current ApplicationStatus values are:
 
@@ -100,33 +104,31 @@ The current ApplicationStatus values are:
 - `Rejected`
 - `Withdrawn`
 
-Use the existing `ApplicationStatus` type instead of creating duplicate
-status types.
+Use the existing `ApplicationStatus` type instead of creating duplicate status types.
 
-## Add Application Feature
+## Application Features
 
-The current primary feature is:
+Users must be able to:
 
-User Story 2 - Add an Application
+- Create job applications
+- View their applications
+- Edit applications
+- Update application status
+- Add and manage follow-up notes
+- Manage resume information associated with an application
+- Delete applications
 
-A signed-in job seeker must be able to create a job application with:
+A valid application must be saved and appear on the authenticated user's dashboard.
 
-- Company
-- Role
-- Status
-- Date applied
-- Optional follow-up notes
-
-A valid application must be saved and appear on the dashboard.
-
-Invalid or missing required information must prevent the application from being
-saved.
+Invalid or missing required information must prevent invalid data from being saved.
 
 Validation errors must clearly identify the problem.
 
 ## Application API
 
-The application CRUD API follows these endpoints:
+Application API routes should follow the existing project structure and API conventions.
+
+The application API supports operations such as:
 
 - `GET /api/applications`
   - Return applications belonging to the authenticated user.
@@ -143,31 +145,19 @@ The application CRUD API follows these endpoints:
 - `DELETE /api/applications/{id}`
   - Delete an application owned by the authenticated user.
 
-The create application endpoint is:
+API endpoints must:
 
-`POST /api/applications`
+1. Verify authentication when authentication is required.
+2. Validate incoming data.
+3. Maintain user ownership.
+4. Prevent users from accessing another user's application.
+5. Return appropriate success or error responses.
 
-It must:
-
-1. Verify authentication.
-2. Validate the request body.
-3. Trim company and role values.
-4. Validate the application status.
-5. Validate the date applied.
-6. Validate optional notes.
-7. Associate the record with the authenticated user's ID.
-8. Save the record.
-9. Return an appropriate success response.
-
-Unauthenticated requests must be rejected.
-
-Invalid requests must return an appropriate client error.
-
-Users must never be able to assign an application to another user.
+Users must never be able to assign an application to another user through client-supplied data.
 
 ## Application Form
 
-The Add Application form must contain:
+The Add Application form should contain:
 
 - Company input
 - Role input
@@ -176,17 +166,17 @@ The Add Application form must contain:
 - Optional notes textarea
 - Submit button
 
-The form must:
+The form should:
 
 - Use accessible labels.
 - Support keyboard navigation.
 - Validate required fields.
 - Display clear validation messages.
 - Preserve user input when possible after an error.
-- Display a success message after a successful submission.
+- Display an appropriate success message after successful submission.
 - Handle server/API errors clearly.
 
-The six application statuses must be available in the status select.
+The six application statuses must be available wherever users select an application status.
 
 ## Validation Rules
 
@@ -204,79 +194,94 @@ Company and role should be trimmed before saving.
 
 Notes are optional.
 
-Very long notes should be rejected with clear validation feedback rather
-than silently truncated.
+Very long notes should be rejected with clear validation feedback rather than silently truncated.
 
 Duplicate applications for the same company and role are allowed.
 
+Follow the validation requirements established by the project specifications when additional fields are introduced.
+
 ## Database
 
-The project uses Neon PostgreSQL through the existing
-`@neondatabase/serverless` dependency.
+The project uses Neon PostgreSQL through the existing `@neondatabase/serverless` dependency.
 
-Use the existing database connection and project patterns.
+Use the existing database connection and query patterns.
 
-Do not introduce Prisma, MongoDB, MySQL, or another database provider.
+Do not introduce Prisma, MongoDB, MySQL, or another database provider without explicit team approval.
+
+Keep database models and fields consistent with the existing TypeScript types.
 
 Database records must maintain user ownership.
 
-Keep database fields consistent with the TypeScript `Application` type.
+Queries involving application records should enforce ownership at the database-query level whenever appropriate.
 
 ## Dashboard
 
-After an application is successfully created, the application should be
-available from the authenticated user's dashboard.
+The authenticated user's dashboard should display only that user's applications.
 
-The dashboard should only display applications belonging to the current user.
-
-Application information should include:
+Application information may include:
 
 - Company
 - Role
 - Status
 - Date applied
 - Notes availability
+- Resume information availability
 
-Provide appropriate loading, empty, success, and error states.
+Provide appropriate loading, empty, success, and error states where applicable.
+
+After an application is successfully created, it should be available from the authenticated user's dashboard.
 
 ## UI and Styling
 
-Use Tailwind CSS 4.
+Use Tailwind CSS 4 for styling.
 
-Follow the existing project's visual design, spacing, typography, and
-component patterns.
+Follow the existing project's visual design system, including:
+
+- Established typography
+- Colors
+- Spacing
+- Component patterns
+- Status colors
+- Responsive layout conventions
 
 Do not introduce unrelated colors, styles, or design systems.
 
-Status styling should remain consistent across the application.
+Application status styling should remain consistent across the application.
 
 Do not rely on color alone to communicate important status information.
+
+Interactive elements should have appropriate hover, focus, and disabled states.
+
+Maintain accessibility while implementing or modifying the UI.
 
 ## TypeScript Conventions
 
 Use TypeScript for application code.
 
-Use the existing types whenever possible.
+Use existing types whenever possible.
 
-Prefer:
+Prefer the existing project types, including:
 
 - `Application`
 - `ApplicationStatus`
 - `ApplicationUpdate`
+- `FollowUpNote`
 
-Do not create duplicate application interfaces.
+Do not create duplicate application interfaces or status types.
 
 React components should use PascalCase.
 
-Variables and functions should use camelCase.
+Variables, functions, and server actions should use camelCase.
 
 Use descriptive names.
 
 Avoid `any`.
 
+Use specific types rather than unnecessarily broad types.
+
 ## API Error Handling
 
-API responses should clearly distinguish:
+API responses should clearly distinguish appropriate error conditions, including:
 
 - Unauthenticated requests
 - Invalid input
@@ -284,45 +289,31 @@ API responses should clearly distinguish:
 - Application not found
 - Unauthorized application access
 - Database/server errors
-- Successful creation
+- Successful operations
 
-Do not expose sensitive authentication or database information in API
-responses.
-
-## Current Feature Issues
-
-The Add Application user story is divided into these GitHub issues:
-
-- #12 Create Application database model
-- #13 Create Application Form
-- #14 Implement create application API
-- #15 Connect application form to API
-
-Parent issue:
-
-- #2 User Story 2: Add a job application
-
-When working on these issues, keep the database model, TypeScript types,
-form fields, API contract, and authentication behavior consistent.
+Do not expose sensitive authentication, password, database, or internal implementation information in API responses.
 
 ## Development Guidelines
 
-Before creating new code:
+Before creating or modifying code:
 
 1. Check the existing project structure.
 2. Reuse existing components and types.
 3. Check existing authentication utilities.
 4. Check existing database access patterns.
-5. Follow the existing API conventions.
+5. Follow existing API conventions.
+6. Check the project specifications and requirements.
+7. Determine whether existing functionality can solve the problem before adding a dependency.
 
 Prefer simple solutions that satisfy the WDD 430 requirements.
 
 Do not make unnecessary architectural changes.
 
-Do not add dependencies when existing project functionality can solve the
-problem.
+Do not add dependencies when existing Next.js, React, TypeScript, Tailwind, or project functionality can solve the task.
 
-When modifying existing code, preserve working functionality.
+When modifying existing functionality, preserve working behavior unless the requested change specifically requires otherwise.
+
+When suggesting or generating code, follow the conventions in this file and the existing codebase.
 
 ## Git and Pull Requests
 
@@ -335,99 +326,27 @@ git status
 git add .
 git commit -m "Week 04 feature work: [brief description]"
 git push origin [your-feature-branch]
-=======
-ApplyTrack is a job application tracking application built for the WDD430 course. Users can create an account, sign in, and privately manage their job applications.
+```
 
-Each application may include information such as:
+Keep commits focused on the feature or issue being addressed.
 
-- Company
-- Job role/title
-- Application date
-- Application status
-- Notes
-- Resume information storage
+Pull Requests should be reviewed before merging.
 
-Applications can be created, viewed, edited, and deleted. The application dashboard displays a list of applications and allows the user to view a selected application's summary/details.
+Avoid committing unrelated changes to a feature branch.
 
-## Technology Stack
+## Project Requirements
 
-- Next.js with the App Router
-- React
-- TypeScript
-- Tailwind CSS
-- Neon/PostgreSQL for the database
-- Auth.js v5 (NextAuth) for authentication
-- Vercel for deployment
+The project specifications and GitHub issues are the source of truth for feature requirements.
 
-Use strict TypeScript. Do not use `any` unless there is a documented and unavoidable reason.
+When implementing a feature, keep the following consistent:
 
-## Project Structure
+- Database schema
+- TypeScript types
+- Validation
+- Forms
+- API contracts
+- Authentication
+- User ownership
+- UI behavior
 
-Follow the existing Next.js App Router structure and existing project organization. Do not introduce a new application architecture or move files unless there is a specific project requirement.
-
-Use:
-
-- `app/` for routes and pages
-- Components in the project's existing component locations
-- API routes under the App Router's `api` route structure
-- Server actions where the existing project uses them
-
-Before creating new files or directories, follow the patterns already established in the project.
-
-## Database
-
-The application uses Neon PostgreSQL.
-
-Database queries should use the project's existing database connection and query patterns. Do not introduce another database provider or ORM without explicit team approval.
-
-Keep database models/types consistent with the existing schema and TypeScript types.
-
-## Authentication
-
-Authentication uses Auth.js v5.
-
-The project includes its own user/account database records and registration flow. Passwords must be securely hashed before being stored.
-
-Do not replace Auth.js with Clerk or another authentication provider.
-
-Authentication and application data must remain private to the authenticated user. Users should only be able to access their own application records.
-
-## Naming and TypeScript Conventions
-
-- Use TypeScript for application code.
-- Use descriptive names for variables, functions, components, and types.
-- Follow the naming conventions already established in the project.
-- React components should use PascalCase.
-- Variables, functions, and server actions should use camelCase.
-- Use clear, specific TypeScript types instead of `any`.
-- Reuse existing types when appropriate rather than creating duplicate types.
-
-## UI and Styling
-
-Use Tailwind CSS for styling and follow the existing design system.
-
-Maintain the project's established typography, spacing, colors, status colors, and component patterns rather than introducing unrelated styles.
-
-Application status values currently include:
-
-- Applied
-- Screening
-- Interview
-- Offer
-- Rejected
-- Withdrawn
-
-Follow the existing status styling when displaying these values.
-
-## Development Guidelines
-
-Prefer simple solutions that fit the existing project and course requirements.
-
-Before adding a dependency, determine whether the existing Next.js, React, TypeScript, or project functionality can accomplish the task without it.
-
-Do not make unnecessary architectural changes.
-
-When modifying existing functionality, preserve behavior that is already working unless the requested change specifically requires otherwise.
-
-When suggesting code, explain important project-specific decisions and follow the conventions in this file and the existing codebase.
->>>>>>> 534d3024c82f21516bad3f2398a617582d0fe1a0
+When requirements conflict with existing code, follow the current project specification and discuss significant architectural changes with the team before implementing them.
