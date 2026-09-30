@@ -42,5 +42,6 @@ coverage/
 # Temporary files
 *.tmp
 *.temp
-.vercel
-.env*
+
+# Local resume test files
+lib/resumes/

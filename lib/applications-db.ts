@@ -1,10 +1,12 @@
 // lib/applications-db.ts
-import { neon } from '@neondatabase/serverless';
-import type { JobApplication, ApplicationUpdate } from './types';
+import { neon } from "@neondatabase/serverless";
+import type { JobApplication, ApplicationUpdate } from "./types";
 
 const sql = neon(process.env.DATABASE_URL!);
 
-export async function getApplications(userId: number): Promise<JobApplication[]> {
+export async function getApplications(
+  userId: number,
+): Promise<JobApplication[]> {
   const result = await sql`
     SELECT * FROM applications WHERE "userId" = ${userId}
     ORDER BY "dateApplied" DESC
@@ -14,7 +16,7 @@ export async function getApplications(userId: number): Promise<JobApplication[]>
 
 export async function getApplicationById(
   id: number,
-  userId: number
+  userId: number,
 ): Promise<JobApplication | null> {
   const result = await sql`
     SELECT * FROM applications
@@ -26,7 +28,7 @@ export async function getApplicationById(
 export async function updateApplication(
   id: number,
   userId: number,
-  updates: ApplicationUpdate
+  updates: ApplicationUpdate,
 ): Promise<JobApplication | null> {
   const result = await sql`
     UPDATE applications
@@ -34,6 +36,7 @@ export async function updateApplication(
       company = COALESCE(${updates.company}, company),
       role = COALESCE(${updates.role}, role),
       status = COALESCE(${updates.status}, status),
+      resume = COALESCE(${updates.resume}, resume),
       "updatedAt" = NOW()
     WHERE id = ${id} AND "userId" = ${userId}
     RETURNING *

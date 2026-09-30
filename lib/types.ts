@@ -38,4 +38,5 @@ export type ApplicationUpdate = {
   company?: string;
   role?: string;
   status?: ApplicationStatus;
+  resume?: string;
 };
