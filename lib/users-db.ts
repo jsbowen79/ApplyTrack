@@ -4,13 +4,11 @@ import { Account, NewAccount } from "@/lib/types";
 const sql = neon(process.env.DATABASE_URL!);
 
 export async function verifyValidEmail(email: string): Promise<boolean> {
-  console.log("in verifyValidEmail");
   const rows: Record<string, string>[] = await sql`
     SELECT email FROM users WHERE email = ${email}`;
   const emails: string[] = rows.map((e) => {
     return e.email;
   });
-  console.log("Emails: ", emails);
   if (emails.length === 1) {
     return true;
   } else {

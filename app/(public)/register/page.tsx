@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import Register from "@/app/components/account/Register";
 
 export const metadata: Metadata = {
-  title: "Sacrament Meeting Tracker - Add a Meeting",
-  description: "Add a Meeting to the Database",
+  title: "ApplyTrack - Register",
+  description: "Register for an account",
 };
 
 export default async function signUp() {

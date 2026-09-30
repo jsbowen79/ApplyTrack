@@ -18,14 +18,12 @@ export default function Login() {
       redirect: false,
     });
 
-    console.log("loggedIn: ", loggedIn);
     if (loggedIn?.error === undefined) {
       setLoginStatus("valid");
       router.push("/dashboard");
     } else {
       setLoginStatus("invalid");
     }
-    console.log("loggedIn: ", loggedIn);
   }
 
   return (
