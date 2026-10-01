@@ -1,10 +1,11 @@
-import { Metadata } from "next";
 import Register from "@/app/components/account/Register";
+import { createPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Sacrament Meeting Tracker - Add a Meeting",
-  description: "Add a Meeting to the Database",
-};
+export const metadata = createPageMetadata(
+  "Register",
+  "Create an ApplyTrack account to start tracking your job applications.",
+  true,
+);
 
 export default async function signUp() {
   return (
