@@ -30,15 +30,12 @@ export default function Register() {
       const result = await registerAccount(name, email, password);
       if (result != null && "fieldErrors" in result) {
         setRegistrationStatus("errors");
-        console.log("rendering errors");
         setFieldErrors(result.fieldErrors);
       } else if (result === null) {
         setRegistrationStatus("email");
-        console.log("rendering invalid email");
       } else {
         setRegistrationStatus("created");
         setAccount(result);
-        console.log("Rendering success");
       }
     }
   }

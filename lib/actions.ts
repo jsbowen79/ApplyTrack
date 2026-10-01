@@ -3,13 +3,58 @@
 import { updateFollowUpNote } from "./followUpNotes-db";
 import { uploadResume } from "./resume-storage";
 import { auth } from "@/lib/auth";
-import { getApplicationById, updateApplication } from "@/lib/applications-db";
+import {
+  createApplication,
+  getApplicationById,
+  updateApplication,
+} from "@/lib/applications-db";
 import {
   getFollowUpNotes,
   createFollowUpNote,
   deleteFollowUpNote,
 } from "./followUpNotes-db";
-import type { ApplicationUpdate } from "@/lib/types";
+import type {
+  ApplicationUpdate,
+  NewApplication,
+  ApplicationStatus,
+  JobApplication,
+} from "@/lib/types";
+import { z } from "zod";
+
+const applicationSchema = z.object({
+  company: z.string().min(2).max(100).trim(),
+  role: z.string().min(2).max(100).trim(),
+  status: z.enum([
+    "Applied",
+    "Screening",
+    "Interview",
+    "Offer",
+    "Rejected",
+    "Withdrawn",
+  ]),
+  dateApplied: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Enter a valid date.")
+    .refine(
+      (date) => date <= new Date().toISOString().split("T")[0],
+      "Date applied cannot be in the future.",
+    ),
+});
+
+const applicationUpdateSchema = z.object({
+  company: z.string().min(2).max(100).trim().optional(),
+  role: z.string().min(2).max(100).trim().optional(),
+  status: z
+    .enum([
+      "Applied",
+      "Screening",
+      "Interview",
+      "Offer",
+      "Rejected",
+      "Withdrawn",
+    ])
+    .optional(),
+});
 
 export async function fetchApplication(id: number) {
   const session = await auth();
@@ -70,17 +115,91 @@ export async function removeFollowUpNote(noteId: number) {
   return deleteFollowUpNote(noteId, userId);
 }
 
+export async function createNewApplication(
+  company: string,
+  role: string,
+  status: ApplicationStatus,
+  dateApplied: string,
+  resume?: string,
+): Promise<
+  | {
+      fieldErrors: {
+        company?: string[];
+        role?: string[];
+        status?: string[];
+        dateApplied?: string[];
+      };
+    }
+  | JobApplication
+  | null
+> {
+  const session = await auth();
+  if (!session) {
+    throw new Error("unauthorized");
+  }
+
+  const userId = session.user.id;
+  const result = applicationSchema.safeParse({
+    userId: Number(userId),
+    company: company,
+    role: role,
+    status: status,
+    dateApplied: dateApplied,
+    resume: resume,
+  });
+
+  if (!result.success) {
+    const errorTree = z.treeifyError(result.error);
+    const errors = {
+      fieldErrors: {
+        company: errorTree.properties?.company?.errors,
+        role: errorTree.properties?.role?.errors,
+        status: errorTree.properties?.status?.errors,
+        dateApplied: errorTree.properties?.dateApplied?.errors,
+      },
+    };
+    return errors;
+  }
+  const application = result.data as NewApplication;
+
+  const savedApplication: JobApplication | null =
+    await createApplication(application);
+  return savedApplication;
+}
+
 export async function saveApplicationUpdate(
   id: number,
   updates: ApplicationUpdate,
-) {
+): Promise<
+  | { fieldErrors: { company?: string[]; role?: string[]; status?: string[] } }
+  | JobApplication
+  | null
+> {
   const session = await auth();
   if (!session) throw new Error("Unauthorized");
   const userId = Number(session.user.id);
-  return updateApplication(id, userId, updates);
+
+  const result = applicationUpdateSchema.safeParse(updates);
+  if (!result.success) {
+    const errorTree = z.treeifyError(result.error);
+    const errors = {
+      fieldErrors: {
+        company: errorTree.properties?.company?.errors,
+        role: errorTree.properties?.role?.errors,
+        status: errorTree.properties?.status?.errors,
+      },
+    };
+    return errors;
+  }
+  const parsedUpdates = result.data as ApplicationUpdate;
+
+  return updateApplication(id, userId, parsedUpdates);
 }
 
-export async function uploadApplicationResume(id: number, file: File) {
+export async function uploadApplicationResume(
+  id: number,
+  file: File,
+): Promise<JobApplication | null> {
   const session = await auth();
 
   if (!session) {
