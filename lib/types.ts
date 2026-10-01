@@ -31,8 +31,6 @@ export interface JobApplication {
   status: ApplicationStatus;
   dateApplied: string;
   resume?: string;
-  createdAt: string;
-  updatedAt: string;
   notes?: FollowUpNote[];
 }
 
