@@ -34,6 +34,16 @@ export interface JobApplication {
   notes?: FollowUpNote[];
 }
 
+export type NewApplication = Omit<JobApplication, "id" | "notes">;
+export type FormValues = Omit<NewApplication, "userId">;
+export type FormSubmissionValues = {
+  company: string;
+  role: string;
+  status: ApplicationStatus;
+  dateApplied: string;
+  resumeFile: File | null;
+};
+
 export type ApplicationUpdate = {
   company?: string;
   role?: string;

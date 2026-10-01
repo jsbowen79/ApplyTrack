@@ -1,10 +1,13 @@
 ﻿"use client";
 
-import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
-import { ApplicationStatus } from "@/lib/types";
+import { useState } from "react";
+import {
+  ApplicationStatus,
+  FormValues,
+  FormSubmissionValues,
+} from "@/lib/types";
 
-const statuses: ApplicationStatus[] = [
+const statusOptions: ApplicationStatus[] = [
   "Applied",
   "Screening",
   "Interview",
@@ -13,195 +16,108 @@ const statuses: ApplicationStatus[] = [
   "Withdrawn",
 ];
 
-type Errors = Record<string, string>;
+interface ApplicationFormProps {
+  initialValues: FormValues;
+  displayDate: boolean;
+  onSubmit: (values: FormSubmissionValues) => void | Promise<void>;
+}
 
-export default function ApplicationForm() {
-  const router = useRouter();
+export default function ApplicationForm(input: ApplicationFormProps) {
+  const [company, setCompany] = useState(input.initialValues.company);
+  const [role, setRole] = useState(input.initialValues.role);
+  const [status, setStatus] = useState<ApplicationStatus>(
+    input.initialValues.status || "Applied",
+  );
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [dateApplied, setDateApplied] = useState(
+    input.initialValues.dateApplied,
+  );
 
-  const [company, setCompany] = useState("");
-  const [role, setRole] = useState("");
-  const [status, setStatus] = useState<ApplicationStatus | "">("");
-  const [dateApplied, setDateApplied] = useState("");
-  const [notes, setNotes] = useState("");
-  const [errors, setErrors] = useState<Errors>({});
-  const [serverError, setServerError] = useState("");
-  const [saving, setSaving] = useState(false);
+  let submitLabel: string;
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    setErrors({});
-    setServerError("");
-
-    const validationErrors: Errors = {};
-
-    if (!company.trim()) {
-      validationErrors.company = "Company is required.";
-    }
-
-    if (!role.trim()) {
-      validationErrors.role = "Role is required.";
-    }
-
-    if (!status) {
-      validationErrors.status = "Status is required.";
-    }
-
-    if (!dateApplied) {
-      validationErrors.dateApplied = "Date applied is required.";
-    }
-
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-
-    setSaving(true);
-
-    try {
-      const response = await fetch("/api/applications", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          company,
-          role,
-          status,
-          dateApplied,
-          notes,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setErrors(data.errors ?? {});
-        setServerError(data.error ?? "Unable to save application.");
-        return;
-      }
-
-      router.push("/dashboard");
-      router.refresh();
-    } catch {
-      setServerError("A network error occurred. Please try again.");
-    } finally {
-      setSaving(false);
-    }
+  if (input.displayDate) {
+    submitLabel = "Save Application";
+  } else {
+    submitLabel = "Update Application";
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-xl space-y-6">
-      {serverError && (
-        <div
-          role="alert"
-          className="rounded-md border border-red-300 bg-red-50 p-3 text-red-700"
-        >
-          {serverError}
-        </div>
-      )}
-
-      <div>
-        <label htmlFor="company" className="block font-medium">
-          Company
-        </label>
-        <input
-          id="company"
-          name="company"
-          value={company}
-          onChange={(event) => setCompany(event.target.value)}
-          className="mt-1 w-full rounded-md border p-2"
-          required
-        />
-        {errors.company && (
-          <p className="mt-1 text-sm text-red-600">{errors.company}</p>
-        )}
-      </div>
-
-      <div>
-        <label htmlFor="role" className="block font-medium">
-          Role
-        </label>
-        <input
-          id="role"
-          name="role"
-          value={role}
-          onChange={(event) => setRole(event.target.value)}
-          className="mt-1 w-full rounded-md border p-2"
-          required
-        />
-        {errors.role && (
-          <p className="mt-1 text-sm text-red-600">{errors.role}</p>
-        )}
-      </div>
-
-      <div>
-        <label htmlFor="status" className="block font-medium">
-          Status
-        </label>
-        <select
-          id="status"
-          name="status"
-          value={status}
-          onChange={(event) =>
-            setStatus(event.target.value as ApplicationStatus)
-          }
-          className="mt-1 w-full rounded-md border p-2"
-          required
-        >
-          <option value="">Select a status</option>
-          {statuses.map((applicationStatus) => (
-            <option key={applicationStatus} value={applicationStatus}>
-              {applicationStatus}
-            </option>
-          ))}
-        </select>
-        {errors.status && (
-          <p className="mt-1 text-sm text-red-600">{errors.status}</p>
-        )}
-      </div>
-
-      <div>
-        <label htmlFor="dateApplied" className="block font-medium">
-          Date Applied
-        </label>
-        <input
-          id="dateApplied"
-          name="dateApplied"
-          type="date"
-          value={dateApplied}
-          onChange={(event) => setDateApplied(event.target.value)}
-          className="mt-1 w-full rounded-md border p-2"
-          required
-        />
-        {errors.dateApplied && (
-          <p className="mt-1 text-sm text-red-600">
-            {errors.dateApplied}
-          </p>
-        )}
-      </div>
-
-      <div>
-        <label htmlFor="notes" className="block font-medium">
-          Follow-up Notes
-        </label>
-        <textarea
-          id="notes"
-          name="notes"
-          value={notes}
-          onChange={(event) => setNotes(event.target.value)}
-          rows={5}
-          className="mt-1 w-full rounded-md border p-2"
-        />
-      </div>
-
-      <button
-        type="submit"
-        disabled={saving}
-        className="rounded-md px-5 py-2 font-medium shadow disabled:opacity-50"
+    <section className="grid gap-4 max-w-[500px] mx-auto">
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          input.onSubmit({
+            company,
+            role,
+            status,
+            dateApplied,
+            resumeFile,
+          });
+        }}
       >
-        {saving ? "Saving..." : "Add Application"}
-      </button>
-    </form>
+        <div>
+          <label htmlFor="company">Company</label>
+          <input
+            type="text"
+            id="company"
+            value={company}
+            onChange={(event) => setCompany(event.target.value)}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="role">Role</label>
+          <input
+            type="text"
+            id="role"
+            value={role}
+            onChange={(event) => setRole(event.target.value)}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="status">Status</label>
+          <select
+            id="status"
+            value={status}
+            onChange={(event) =>
+              setStatus(event.target.value as ApplicationStatus)
+            }
+          >
+            {statusOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
+        {input.displayDate && (
+          <div>
+            <label htmlFor="dateApplied">Date Applied</label>
+            <input
+              id="dateApplied"
+              type="date"
+              value={dateApplied}
+              onChange={(event) => setDateApplied(event.target.value)}
+            />
+          </div>
+        )}
+
+        <div>
+          <label htmlFor="resume">Resume</label>
+          <input
+            type="file"
+            id="resume"
+            onChange={(event) => setResumeFile(event.target.files?.[0] ?? null)}
+          />
+          <p>
+            Current Attached Resume:{" "}
+            {input.initialValues.resume?.split("/").pop() || "None"}
+          </p>
+        </div>
+
+        <button type="submit">{submitLabel}</button>
+      </form>
+    </section>
   );
 }

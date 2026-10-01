@@ -3,13 +3,22 @@
 import { updateFollowUpNote } from "./followUpNotes-db";
 import { uploadResume } from "./resume-storage";
 import { auth } from "@/lib/auth";
-import { getApplicationById, updateApplication } from "@/lib/applications-db";
+import {
+  createApplication,
+  getApplicationById,
+  updateApplication,
+} from "@/lib/applications-db";
 import {
   getFollowUpNotes,
   createFollowUpNote,
   deleteFollowUpNote,
 } from "./followUpNotes-db";
-import type { ApplicationUpdate } from "@/lib/types";
+import type {
+  ApplicationUpdate,
+  NewApplication,
+  ApplicationStatus,
+  JobApplication,
+} from "@/lib/types";
 
 export async function fetchApplication(id: number) {
   const session = await auth();
@@ -70,6 +79,32 @@ export async function removeFollowUpNote(noteId: number) {
   return deleteFollowUpNote(noteId, userId);
 }
 
+export async function createNewApplication(
+  company: string,
+  role: string,
+  status: ApplicationStatus,
+  dateApplied: string,
+  resume?: string,
+): Promise<JobApplication | null> {
+  const session = await auth();
+  if (!session) {
+    throw new Error("unauthorized");
+  }
+
+  const userId = session.user.id;
+  const application: NewApplication = {
+    userId: Number(userId),
+    company: company,
+    role: role,
+    status: status,
+    dateApplied: dateApplied,
+    resume: resume,
+  };
+  const savedApplication: JobApplication | null =
+    await createApplication(application);
+  return savedApplication;
+}
+
 export async function saveApplicationUpdate(
   id: number,
   updates: ApplicationUpdate,
@@ -80,7 +115,10 @@ export async function saveApplicationUpdate(
   return updateApplication(id, userId, updates);
 }
 
-export async function uploadApplicationResume(id: number, file: File) {
+export async function uploadApplicationResume(
+  id: number,
+  file: File,
+): Promise<JobApplication | null> {
   const session = await auth();
 
   if (!session) {
