@@ -18,6 +18,11 @@ export default function UpdateApplication({ id }: { id: number }) {
   const [notFoundError, setNotFoundError] = useState(false);
   const [loadError, setLoadError] = useState(false);
   const [updateStatus, setUpdateStatus] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<{
+    company?: string[];
+    role?: string[];
+    status?: string[];
+  }>({});
 
   useEffect(() => {
     async function loadApplication() {
@@ -39,6 +44,7 @@ export default function UpdateApplication({ id }: { id: number }) {
   }, [id]);
 
   async function handleUpdate(values: FormSubmissionValues) {
+    setFieldErrors({});
     const update: ApplicationUpdate = {
       company: values.company,
       role: values.role,
@@ -48,7 +54,7 @@ export default function UpdateApplication({ id }: { id: number }) {
 
     try {
       const result = await saveApplicationUpdate(id, update);
-      if (result) {
+      if (result && !("fieldErrors" in result)) {
         if (values.resumeFile) {
           const resumeUpdate: JobApplication | null =
             await uploadApplicationResume(result.id, values.resumeFile);
@@ -60,6 +66,9 @@ export default function UpdateApplication({ id }: { id: number }) {
         } else {
           setUpdateStatus("success");
         }
+      } else if (result && "fieldErrors" in result) {
+        setFieldErrors(result.fieldErrors);
+        setUpdateStatus("error");
       } else {
         setUpdateStatus("error");
       }
@@ -107,6 +116,7 @@ export default function UpdateApplication({ id }: { id: number }) {
       )}
 
       <ApplicationForm
+        fieldErrors={fieldErrors}
         initialValues={application}
         displayDate={false}
         onSubmit={handleUpdate}

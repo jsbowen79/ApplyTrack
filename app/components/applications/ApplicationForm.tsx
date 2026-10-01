@@ -17,6 +17,12 @@ const statusOptions: ApplicationStatus[] = [
 ];
 
 interface ApplicationFormProps {
+  fieldErrors?: {
+    company?: string[];
+    role?: string[];
+    dateApplied?: string[];
+    status?: string[];
+  };
   initialValues: FormValues;
   displayDate: boolean;
   onSubmit: (values: FormSubmissionValues) => void | Promise<void>;
@@ -61,8 +67,12 @@ export default function ApplicationForm(input: ApplicationFormProps) {
             type="text"
             id="company"
             value={company}
+            required
             onChange={(event) => setCompany(event.target.value)}
           />
+          {input.fieldErrors?.company && (
+            <p className="text-red-500">{input.fieldErrors.company[0]}</p>
+          )}
         </div>
 
         <div>
@@ -71,8 +81,12 @@ export default function ApplicationForm(input: ApplicationFormProps) {
             type="text"
             id="role"
             value={role}
+            required
             onChange={(event) => setRole(event.target.value)}
           />
+          {input.fieldErrors?.role && (
+            <p className="text-red-500">{input.fieldErrors.role[0]}</p>
+          )}
         </div>
 
         <div>
@@ -90,6 +104,9 @@ export default function ApplicationForm(input: ApplicationFormProps) {
               </option>
             ))}
           </select>
+          {input.fieldErrors?.status && (
+            <p className="text-red-500">{input.fieldErrors.status[0]}</p>
+          )}
         </div>
         {input.displayDate && (
           <div>
@@ -98,8 +115,13 @@ export default function ApplicationForm(input: ApplicationFormProps) {
               id="dateApplied"
               type="date"
               value={dateApplied}
+              required
+              max={new Date().toISOString().split("T")[0]}
               onChange={(event) => setDateApplied(event.target.value)}
             />
+            {input.fieldErrors?.dateApplied && (
+              <p className="text-red-500">{input.fieldErrors.dateApplied[0]}</p>
+            )}
           </div>
         )}
 
