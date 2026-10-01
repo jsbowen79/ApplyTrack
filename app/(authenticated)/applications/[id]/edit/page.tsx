@@ -1,10 +1,11 @@
-import { Metadata } from "next";
 import UpdateApplication from "@/app/components/update/UpdateApplication";
+import { createPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "ApplyTrack - Edit Application",
-  description: "Update the details of a job application",
-};
+export const metadata = createPageMetadata(
+  "Edit Application",
+  "Update the details of a job application.",
+  true,
+);
 
 export default async function EditApplicationPage({
   params,

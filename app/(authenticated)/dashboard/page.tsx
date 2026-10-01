@@ -3,6 +3,13 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getApplications } from "@/lib/applications-db";
 import ApplicationCard from "@/app/components/dashboard/ApplicationCard";
+import { createPageMetadata } from "@/lib/metadata";
+
+export const metadata = createPageMetadata(
+  "Dashboard",
+  "View and manage your job applications.",
+  true,
+);
 
 export default async function DashboardPage() {
   const session = await auth();
