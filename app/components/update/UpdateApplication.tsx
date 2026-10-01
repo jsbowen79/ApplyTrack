@@ -154,16 +154,6 @@ export default function UpdateApplication({ id }: { id: number }) {
 
       {/* Follow-up notes now live on their own entity (FollowUpNote[]),
           so editing them belongs in a separate feature, not this form. */}
-      {application.notes && application.notes.length > 0 && (
-        <div>
-          <p className="font-medium">Notes</p>
-          <ul className="list-disc pl-5 text-sm text-slate-600">
-            {application.notes.map((note) => (
-              <li key={note.id}>{note.content}</li>
-            ))}
-          </ul>
-        </div>
-      )}
 
       <button onClick={handleUpdate}>Save Changes</button>
     </section>
