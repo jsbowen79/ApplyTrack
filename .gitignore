@@ -42,6 +42,3 @@ coverage/
 # Temporary files
 *.tmp
 *.temp
-
-# Local resume test files
-lib/resumes/
