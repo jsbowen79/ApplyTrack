@@ -1,0 +1,13 @@
+node_modules
+.next
+.vercel
+coverage
+.prettierrc
+package-lock.json
+.github/*
+.specify/*
+specs/*
+README.md   
+.next
+.vercel
+coverage
