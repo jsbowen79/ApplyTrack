@@ -4,12 +4,22 @@ import { redirect } from 'next/navigation';
 import { getApplications } from '@/lib/applications-db';
 import ApplicationCard from '@/app/components/dashboard/ApplicationCard';
 import { createPageMetadata } from '@/lib/metadata';
+import type { ApplicationStatus } from '@/lib/types';
 
 export const metadata = createPageMetadata(
   'Dashboard',
   'View and manage your job applications.',
   true,
 );
+
+const statusSummaryStyles: Record<ApplicationStatus, string> = {
+  Applied: 'bg-blue-100 text-blue-700',
+  Screening: 'bg-slate-100 text-slate-700',
+  Interview: 'bg-amber-100 text-amber-700',
+  Offer: 'bg-green-100 text-green-700',
+  Rejected: 'bg-red-100 text-red-700',
+  Withdrawn: 'bg-violet-100 text-violet-700',
+};
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -18,9 +28,36 @@ export default async function DashboardPage() {
   const userId = Number(session.user.id);
   const applications = await getApplications(userId);
 
+  const statusCounts = applications.reduce<Partial<Record<ApplicationStatus, number>>>(
+    (acc, app) => {
+      acc[app.status] = (acc[app.status] ?? 0) + 1;
+      return acc;
+    },
+    {},
+  );
+
   return (
     <main className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">Your Applications</h1>
+      <h1 className="font-heading text-2xl font-bold mb-1 text-slate-900 dark:text-slate-50">
+        Your Applications
+      </h1>
+      <p className="text-slate-500 dark:text-slate-400 mb-6">
+        {applications.length} application{applications.length === 1 ? '' : 's'} tracked
+      </p>
+
+      {applications.length > 0 && (
+        <div className="mb-8 flex flex-wrap gap-2">
+          {(Object.keys(statusCounts) as ApplicationStatus[]).map((status) => (
+            <span
+              key={status}
+              className={`rounded-full px-3 py-1 text-xs font-semibold ${statusSummaryStyles[status]}`}
+            >
+              {status}: {statusCounts[status]}
+            </span>
+          ))}
+        </div>
+      )}
+
       {applications.length === 0 ? (
         <div className="text-center py-16 border border-dashed border-slate-300 rounded-[10px_0_10px_0]">
           <p className="text-slate-600 mb-4">You haven&apos;t added any applications yet.</p>

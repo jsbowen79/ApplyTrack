@@ -1,16 +1,18 @@
-import PublicButtons from "@/app/components/account/PublicButtons";
+import PublicNavbar from "@/app/components/layout/PublicNavbar";
+import Footer from "@/app/components/layout/Footer";
 
-export default async function PublicLayout({
+export default function PublicLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  {
-    return (
-      <>
-        <PublicButtons />
+  return (
+    <div className="flex min-h-screen flex-col">
+      <PublicNavbar />
+      <main className="flex flex-1 items-center justify-center px-4 py-12">
         {children}
-      </>
-    );
-  }
+      </main>
+      <Footer />
+    </div>
+  );
 }

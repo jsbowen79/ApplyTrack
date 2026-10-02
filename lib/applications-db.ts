@@ -1,6 +1,5 @@
-// lib/applications-db.ts
 import { neon } from "@neondatabase/serverless";
-import type { JobApplication, ApplicationUpdate } from "./types";
+import type { JobApplication, ApplicationUpdate, ApplicationStatus } from "./types";
 
 const sql = neon(process.env.DATABASE_URL!);
 
@@ -42,4 +41,21 @@ export async function updateApplication(
     RETURNING *
   `;
   return (result[0] as JobApplication) ?? null;
+}
+
+export async function createApplication(
+  userId: number,
+  data: {
+    company: string;
+    role: string;
+    status: ApplicationStatus;
+    dateApplied: string;
+  },
+): Promise<JobApplication> {
+  const result = await sql`
+    INSERT INTO applications ("userId", company, role, status, "dateApplied")
+    VALUES (${userId}, ${data.company}, ${data.role}, ${data.status}, ${data.dateApplied})
+    RETURNING *
+  `;
+  return result[0] as JobApplication;
 }

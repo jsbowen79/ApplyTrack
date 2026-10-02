@@ -7,11 +7,16 @@ export const metadata = createPageMetadata(
   true,
 );
 
-export default async function signUp() {
+export default function SignUp() {
   return (
-    <section>
-      <div>
-        <h3>Register for an account.</h3>
+    <section className="w-full max-w-md rounded-xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <h3 className="font-heading text-2xl font-bold text-slate-900 dark:text-slate-50">
+        Create your account
+      </h3>
+      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+        Start tracking your job applications in one place.
+      </p>
+      <div className="mt-6">
         <Register />
       </div>
     </section>

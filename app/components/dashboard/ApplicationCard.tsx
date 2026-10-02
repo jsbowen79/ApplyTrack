@@ -19,7 +19,14 @@ export default function ApplicationCard({ application }: { application: JobAppli
       <div>
         <p className="font-semibold text-slate-900">{application.company}</p>
         <p className="text-sm text-slate-600">{application.role}</p>
-        <p className="text-xs text-slate-500 mt-1">Applied {application.dateApplied}</p>
+        <p className="text-xs text-slate-500 mt-1">
+          Applied{' '}
+          {new Date(application.dateApplied).toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          })}
+        </p>
       </div>
       <span className={`text-xs font-semibold px-3 py-1 rounded-full ${statusStyles[application.status]}`}>
         {application.status}
