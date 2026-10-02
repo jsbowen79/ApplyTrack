@@ -8,11 +8,13 @@ Sync Impact Report
 -->
 
 # ApplyTrack Constitution
+
 <!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
 
 ## Core Principles
 
 ### I. User Value and Product Focus
+
 Every change MUST help job seekers record jobs they applied to, understand current
 application status, or manage follow-up notes. Requirements MUST identify a concrete
 user outcome and MUST exclude unrelated functionality. Product decisions MUST favor
@@ -20,6 +22,7 @@ simple, understandable workflows over feature breadth because ApplyTrack is inte
 to be a focused job application tracker.
 
 ### II. Type-Safe, Maintainable Code
+
 All TypeScript code MUST compile with strict mode enabled and MUST NOT use `any`,
 including implicit or escaped uses. Types MUST model actual domain data and boundary
 inputs, and unsafe values MUST be narrowed or validated before use. Names MUST be
@@ -28,6 +31,7 @@ camelCase for variables, functions, and properties; kebab-case for route segment
 and file names where the framework convention permits.
 
 ### III. Consistent Next.js and Tailwind Patterns
+
 The application MUST use Next.js App Router conventions and file-based routing.
 Components MUST remain Server Components by default; Client Components MUST be used
 only when browser interactivity, state, or event handlers require them, with the
@@ -36,6 +40,7 @@ classes. Custom CSS MAY be added only when a requirement cannot be expressed cle
 with established utilities and the reason MUST be documented.
 
 ### IV. Accessible and Reliable User Experiences
+
 User-facing workflows MUST be usable with keyboard navigation, readable text,
 appropriate contrast, descriptive labels, and clear focus states. Status and
 deadline information MUST not rely on color alone. Forms MUST provide
@@ -43,6 +48,7 @@ understandable validation, empty, loading, and error states, and user-entered
 application data MUST not be silently lost or changed.
 
 ### V. Testable, Collaborative Delivery
+
 Each feature MUST define acceptance scenarios for its primary flow, relevant edge
 cases, and failure or empty states before implementation. Changes MUST include
 appropriate automated tests using established tooling, with unit tests for important
@@ -88,6 +94,7 @@ Changes that alter stored data, route behavior, or established workflows MUST
 document compatibility, migration, or recovery considerations before approval.
 
 ## Governance
+
 <!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
 This constitution is the governing standard for ApplyTrack planning, implementation,
@@ -102,6 +109,7 @@ request reviews MUST verify compliance, and any exception MUST record its ration
 owner, and expiration or reconsideration date.
 
 Versioning follows semantic versioning for governance:
+
 - MAJOR increments for incompatible changes, removals, or redefinitions of principles.
 - MINOR increments for new principles or materially expanded governance requirements.
 - PATCH increments for clarifications, wording improvements, and non-semantic corrections.
