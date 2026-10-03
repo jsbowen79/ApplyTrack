@@ -9,12 +9,7 @@ export interface Account {
 export type NewAccount = Omit<Account, "id" | "createdAt">;
 
 export type ApplicationStatus =
-  | 'Applied'
-  | 'Screening'
-  | 'Interview'
-  | 'Offer'
-  | 'Rejected'
-  | 'Withdrawn';
+  "Applied" | "Screening" | "Interview" | "Offer" | "Rejected" | "Withdrawn";
 
 export interface FollowUpNote {
   id: number;
@@ -33,6 +28,16 @@ export interface JobApplication {
   resume?: string;
   notes?: FollowUpNote[];
 }
+
+export type NewApplication = Omit<JobApplication, "id" | "notes">;
+export type FormValues = Omit<NewApplication, "userId">;
+export type FormSubmissionValues = {
+  company: string;
+  role: string;
+  status: ApplicationStatus;
+  dateApplied: string;
+  resumeFile: File | null;
+};
 
 export type ApplicationUpdate = {
   company?: string;

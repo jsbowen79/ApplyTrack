@@ -1,29 +1,33 @@
-import Link from 'next/link';
-import { auth } from '@/lib/auth';
-import { redirect } from 'next/navigation';
-import { getApplications } from '@/lib/applications-db';
-import ApplicationCard from '@/app/components/dashboard/ApplicationCard';
-import { createPageMetadata } from '@/lib/metadata';
+
+import Link from "next/link";
+import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { getApplications } from "@/lib/applications-db";
+import ApplicationCard from "@/app/components/dashboard/ApplicationCard";
+import { createPageMetadata } from "@/lib/metadata";
 
 export const metadata = createPageMetadata(
-  'Dashboard',
-  'View and manage your job applications.',
+  "Dashboard",
+  "View and manage your job applications.",
   true,
 );
 
+
 export default async function DashboardPage() {
   const session = await auth();
-  if (!session?.user?.id) redirect('/login');
+  if (!session?.user?.id) redirect("/login");
 
   const userId = Number(session.user.id);
   const applications = await getApplications(userId);
 
   return (
     <main className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">Your Applications</h1>
+      <h1 className="text-2xl font-bold mb-6">Track your job applications</h1>
       {applications.length === 0 ? (
         <div className="text-center py-16 border border-dashed border-slate-300 rounded-[10px_0_10px_0]">
-          <p className="text-slate-600 mb-4">You haven&apos;t added any applications yet.</p>
+          <p className="text-slate-600 mb-4">
+            You haven&apos;t added any applications yet.
+          </p>
           <Link
             href="/applications/new"
             className="inline-block rounded-[8px_0_8px_0] bg-indigo-600 text-white px-5 py-2.5 font-semibold hover:bg-indigo-700"
