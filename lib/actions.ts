@@ -21,6 +21,7 @@ import type {
   ApplicationStatus,
   JobApplication,
   DeletedApplication,
+  FormValues,
 } from "@/lib/types";
 import { z } from "zod";
 
@@ -143,7 +144,6 @@ export async function createNewApplication(
 
   const userId = session.user.id;
   const result = applicationSchema.safeParse({
-    userId: Number(userId),
     company: company,
     role: role,
     status: status,
@@ -163,7 +163,10 @@ export async function createNewApplication(
     };
     return errors;
   }
-  const application = result.data as NewApplication;
+  const application = {
+    userId: userId,
+    ...(result.data as FormValues),
+  } as unknown as NewApplication;
 
   const savedApplication: JobApplication | null =
     await createApplication(application);
