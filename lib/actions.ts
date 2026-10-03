@@ -7,6 +7,8 @@ import {
   createApplication,
   getApplicationById,
   updateApplication,
+  removeApplication,
+  restoreApplication,
 } from "@/lib/applications-db";
 import {
   getFollowUpNotes,
@@ -18,6 +20,7 @@ import type {
   NewApplication,
   ApplicationStatus,
   JobApplication,
+  DeletedApplication,
   FormValues,
 } from "@/lib/types";
 import { z } from "zod";
@@ -225,4 +228,30 @@ export async function uploadApplicationResume(
   });
 
   return updatedApplication;
+}
+
+export async function deleteApplication(
+  id: number,
+): Promise<DeletedApplication | null> {
+  const session = await auth();
+  if (!session) throw new Error("Unauthorized");
+  const userId = Number(session.user.id);
+
+  const response = await removeApplication(id, userId);
+
+  if (!response) {
+    throw new Error("Failed to delete application");
+  }
+
+  return response || null;
+}
+
+export async function undoDeleteApplication(
+  application: DeletedApplication,
+): Promise<JobApplication | null> {
+  const session = await auth();
+  if (!session) throw new Error("Unauthorized");
+  const userId = Number(session.user.id);
+
+  return await restoreApplication({ ...application, userId });
 }

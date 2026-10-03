@@ -1,6 +1,8 @@
 // lib/applications-db.ts
 import { neon } from "@neondatabase/serverless";
 import type {
+  DeletedApplication,
+  ApplicationWithTimestamps,
   JobApplication,
   ApplicationUpdate,
   NewApplication,
@@ -31,7 +33,7 @@ FROM applications WHERE "userId" = ${userId}
 export async function getApplicationById(
   id: number,
   userId: number,
-): Promise<JobApplication | null> {
+): Promise<ApplicationWithTimestamps | null> {
   const result = await sql`
   SELECT
   id,
@@ -41,12 +43,12 @@ export async function getApplicationById(
   status,
   "dateApplied"::text AS "dateApplied",
   resume,
-  "createdAt",
-  "updatedAt"
+  "createdAt"::text AS "createdAt",
+  "updatedAt"::text AS "updatedAt"
 FROM applications applications
     WHERE id = ${id} AND "userId" = ${userId}
   `;
-  return (result[0] as JobApplication) ?? null;
+  return (result[0] as ApplicationWithTimestamps) ?? null;
 }
 
 export async function updateApplication(
@@ -90,6 +92,58 @@ export async function createApplication(
     ${application.status}, 
     ${application.dateApplied},
     ${application.resume})
+    RETURNING
+  id,
+  "userId",
+  company,
+  role,
+  status,
+  "dateApplied"::text AS "dateApplied",
+  resume,
+  "createdAt",
+  "updatedAt"
+  `;
+  return (result[0] as JobApplication) ?? null;
+}
+
+export async function removeApplication(
+  id: number,
+  userId: number,
+): Promise<DeletedApplication | null> {
+  console.log("delete id: ", id, "userId: ", userId);
+  const result = await sql`
+    DELETE FROM applications
+    WHERE id = ${id} AND "userId" = ${userId}
+    RETURNING
+  id,
+  "userId",
+  company,
+  role,
+  status,
+  "dateApplied"::text AS "dateApplied",
+  resume,
+  "createdAt"::text AS "createdAt",
+  "updatedAt"::text AS "updatedAt"
+  `;
+  return (result[0] as DeletedApplication) ?? null;
+}
+
+export async function restoreApplication(
+  application: DeletedApplication,
+): Promise<JobApplication | null> {
+  const result = await sql`
+    INSERT INTO  applications
+    (id, "userId", company, role, status, "dateApplied", resume, "createdAt", "updatedAt")
+    VALUES
+    (${application.id},
+    ${application.userId},
+    ${application.company},
+    ${application.role},
+    ${application.status}, 
+    ${application.dateApplied},
+    ${application.resume},
+    ${application.createdAt},
+    ${application.updatedAt})
     RETURNING
   id,
   "userId",

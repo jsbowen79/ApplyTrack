@@ -29,6 +29,11 @@ export interface JobApplication {
   notes?: FollowUpNote[];
 }
 
+export type ApplicationWithTimestamps = JobApplication & {
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type NewApplication = Omit<JobApplication, "id" | "notes">;
 export type FormValues = Omit<NewApplication, "userId">;
 export type FormSubmissionValues = {
@@ -44,4 +49,10 @@ export type ApplicationUpdate = {
   role?: string;
   status?: ApplicationStatus;
   resume?: string;
+};
+
+export type DeletedApplication = JobApplication & {
+  createdAt: string;
+  updatedAt: string;
+  id: number;
 };
