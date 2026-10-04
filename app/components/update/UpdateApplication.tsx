@@ -1,4 +1,5 @@
 "use client";
+
 import FollowUpNotes from "./FollowUpNotes";
 import ApplicationForm from "../applications/ApplicationForm";
 import { useState, useEffect } from "react";
@@ -28,18 +29,15 @@ export default function UpdateApplication({ id }: { id: number }) {
     async function loadApplication() {
       try {
         const result = await fetchApplication(id);
-
         if (result) {
           setApplication(result);
         } else {
           setNotFoundError(true);
         }
-      } catch (error) {
-        console.error("Error loading application:", error);
+      } catch {
         setLoadError(true);
       }
     }
-
     loadApplication();
   }, [id]);
 
@@ -51,18 +49,12 @@ export default function UpdateApplication({ id }: { id: number }) {
       status: values.status,
       resume: undefined,
     };
-
     try {
       const result = await saveApplicationUpdate(id, update);
       if (result && !("fieldErrors" in result)) {
         if (values.resumeFile) {
-          const resumeUpdate: JobApplication | null =
-            await uploadApplicationResume(result.id, values.resumeFile);
-          if (!resumeUpdate?.resume) {
-            setUpdateStatus("resumeFailure");
-          } else {
-            setUpdateStatus("success");
-          }
+          const resumeUpdate = await uploadApplicationResume(result.id, values.resumeFile);
+          setUpdateStatus(resumeUpdate?.resume ? "success" : "resumeFailure");
         } else {
           setUpdateStatus("success");
         }
@@ -72,57 +64,51 @@ export default function UpdateApplication({ id }: { id: number }) {
       } else {
         setUpdateStatus("error");
       }
-    } catch (error) {
-      console.error("Error updating application:", error);
+    } catch {
       setUpdateStatus("error");
     }
   }
+
   if (loadError) {
     return (
-      <p className="text-red-700">
-        Failed to load application. Please try again later.
-      </p>
+      <p className="text-red-700">Failed to load application. Please try again later.</p>
     );
   }
-
   if (notFoundError) {
     return <p className="text-red-700">Application not found.</p>;
   }
   if (!application) {
-    return <p>Loading application...</p>;
+    return <p className="text-sm text-slate-500 dark:text-slate-400">Loading application...</p>;
   }
+
   return (
-    <section className="grid gap-4 max-w-[500px] mx-auto">
+    <div className="space-y-6">
       {updateStatus === "success" && (
-        <p className="text-green-700">Application updated successfully.</p>
+        <div className="rounded-[10px_0_10px_0] border border-green-200 bg-green-50 p-3 text-sm text-green-700 dark:border-green-900 dark:bg-green-950 dark:text-green-300">
+          Application updated successfully.
+        </div>
       )}
-
-      {updateStatus === "error" && (
-        <p className="text-red-700">
-          Failed to update application. Please try again.
-        </p>
-      )}
-
       {updateStatus === "resumeFailure" && (
-        <div>
-          <p className="text-green-700">
-            The application was updated successfully,
-          </p>
-          <p className="text-red-700">
-            but there was an error uploading your resume. Please try the resume
-            upload again!
-          </p>
+        <div className="rounded-[10px_0_10px_0] border border-amber-200 bg-amber-50 p-3 text-sm text-amber-700 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-300">
+          Application updated, but the resume upload failed. Try uploading it again.
+        </div>
+      )}
+      {updateStatus === "error" && (
+        <div className="rounded-[10px_0_10px_0] border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300">
+          Failed to update application. Please try again.
         </div>
       )}
 
-      <ApplicationForm
-        fieldErrors={fieldErrors}
-        initialValues={application}
-        displayDate={false}
-        onSubmit={handleUpdate}
-      />
+      <div className="rounded-[12px_0_12px_0] border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+        <ApplicationForm
+          fieldErrors={fieldErrors}
+          initialValues={application}
+          displayDate={false}
+          onSubmit={handleUpdate}
+        />
+      </div>
 
       <FollowUpNotes applicationId={id} />
-    </section>
+    </div>
   );
 }
