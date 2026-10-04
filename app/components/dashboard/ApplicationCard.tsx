@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import type { JobApplication } from "@/lib/types";
 
@@ -39,21 +38,20 @@ export default function ApplicationCard({
 }: {
   application: JobApplication;
 }) {
+  const label = `${application.role} application at ${application.company}`;
+
   return (
-    <Link
-      href={`/applications/${application.id}/edit`}
-      aria-label={`View ${application.role} application at ${application.company}`}
+    <article
       className="
-        group block rounded-xl border border-slate-200 bg-white
+        group relative rounded-[12px_0_12px_0] border border-slate-200 bg-white
         p-5 shadow-sm
         transition-all duration-200
         hover:-translate-y-0.5
         hover:border-slate-300
         hover:shadow-md
-        focus:outline-none
-        focus:ring-2
-        focus:ring-slate-400
-        focus:ring-offset-2
+        focus-within:ring-2
+        focus-within:ring-slate-400
+        focus-within:ring-offset-2
       "
     >
       <div className="flex items-start justify-between gap-4">
@@ -79,7 +77,7 @@ export default function ApplicationCard({
         </span>
       </div>
 
-      <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-4">
         <div>
           <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
             Applied
@@ -90,16 +88,42 @@ export default function ApplicationCard({
           </p>
         </div>
 
-        <span className="text-sm font-medium text-slate-500 transition-colors group-hover:text-slate-900">
-          View details
-          <span
-            aria-hidden="true"
-            className="ml-1 inline-block transition-transform group-hover:translate-x-1"
+        <div className="flex flex-wrap items-center gap-3 text-sm font-medium">
+          {/* The ::after on this link stretches over the whole card, so a
+              click anywhere on the card opens the details page. */}
+          <Link
+            href={`/applications/${application.id}`}
+            aria-label={`View ${label}`}
+            className="mr-1 text-slate-500 transition-colors after:absolute after:inset-0 after:content-[''] group-hover:text-slate-900 focus:outline-none"
           >
-            →
-          </span>
-        </span>
+            View details
+            <span
+              aria-hidden="true"
+              className="ml-1 inline-block transition-transform group-hover:translate-x-1"
+            >
+              →
+            </span>
+          </Link>
+
+          {/* relative z-10 lifts these above the stretched link so they
+              receive their own clicks. */}
+          <Link
+            href={`/applications/${application.id}/edit`}
+            aria-label={`Edit ${label}`}
+            className="relative z-10 rounded-[8px_0_8px_0] border border-indigo-200 bg-indigo-50 px-3.5 py-1.5 font-semibold text-indigo-700 transition-colors hover:border-indigo-300 hover:bg-indigo-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Edit
+          </Link>
+
+          <Link
+            href={`/applications/${application.id}/delete`}
+            aria-label={`Delete ${label}`}
+            className="relative z-10 rounded-[8px_0_8px_0] border border-red-200 bg-red-50 px-3.5 py-1.5 font-semibold text-red-700 transition-colors hover:border-red-300 hover:bg-red-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+          >
+            Delete
+          </Link>
+        </div>
       </div>
-    </Link>
+    </article>
   );
 }
