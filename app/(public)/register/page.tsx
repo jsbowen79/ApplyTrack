@@ -9,10 +9,10 @@ export const metadata = createPageMetadata(
 
 export default function SignUp() {
   return (
-    <section className="w-full max-w-md rounded-xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-      <h3 className="font-heading text-2xl font-bold text-slate-900 dark:text-slate-50">
+    <section className="w-full max-w-md rounded-[12px_0_12px_0] border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <h1 className="font-heading text-2xl font-bold text-slate-900 dark:text-slate-50">
         Create your account
-      </h3>
+      </h1>
       <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
         Start tracking your job applications in one place.
       </p>

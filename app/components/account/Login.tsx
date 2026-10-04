@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import PasswordInput from "./PasswordInput";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -33,7 +34,10 @@ export default function Login() {
   return (
     <form onSubmit={logIn} className="space-y-4">
       {error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300">
+        <div
+          role="alert"
+          className="rounded-[10px_0_10px_0] border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300"
+        >
           Incorrect email or password. Please try again.
         </div>
       )}
@@ -46,8 +50,9 @@ export default function Login() {
           id="email"
           value={email}
           type="email"
+          autoComplete="email"
           onChange={(event) => setEmail(event.target.value)}
-          className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+          className="mt-1 w-full rounded-[5px_0_5px_0] border border-slate-300 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
         />
       </div>
 
@@ -55,19 +60,18 @@ export default function Login() {
         <label htmlFor="password" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
           Password
         </label>
-        <input
-          type="password"
+        <PasswordInput
           id="password"
           value={password}
+          autoComplete="current-password"
           onChange={(event) => setPassword(event.target.value)}
-          className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
         />
       </div>
 
       <button
         type="submit"
         disabled={submitting}
-        className="w-full rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 disabled:opacity-60"
+        className="w-full rounded-[10px_0_10px_0] bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 disabled:opacity-60"
       >
         {submitting ? "Signing in..." : "Log In"}
       </button>
