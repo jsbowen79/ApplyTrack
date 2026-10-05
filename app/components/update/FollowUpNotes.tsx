@@ -9,6 +9,18 @@ import {
 } from "@/lib/actions";
 import type { FollowUpNote } from "@/lib/types";
 
+const textareaClasses =
+  "block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-600/30 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-50";
+
+const primaryButton =
+  "rounded-[10px_0_10px_0] bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600";
+
+const secondaryButton =
+  "rounded-[10px_0_10px_0] border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800";
+
+const dangerButton =
+  "rounded-[10px_0_10px_0] border border-red-200 px-3 py-1.5 text-sm font-semibold text-red-600 hover:bg-red-50 dark:border-red-900 dark:hover:bg-red-950";
+
 export default function FollowUpNotes({
   applicationId,
 }: {
@@ -121,53 +133,110 @@ export default function FollowUpNotes({
   }
 
   return (
-    <section>
-      <h2>Follow-up Notes</h2>
-      <div>
+    <section className="mt-6 rounded-[12px_0_12px_0] border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+      <h2 className="font-heading mb-4 text-lg font-bold text-slate-900 dark:text-slate-50">
+        Follow-up Notes
+      </h2>
+
+      <div className="space-y-3">
+        <label htmlFor="new-note" className="sr-only">
+          New follow-up note
+        </label>
         <textarea
+          id="new-note"
+          rows={3}
+          className={textareaClasses}
           placeholder="Add a follow-up note..."
           value={newNote}
           onChange={(event) => setNewNote(event.target.value)}
         />
 
-        <button type="button" onClick={handleAddNote}>
+        <button type="button" className={primaryButton} onClick={handleAddNote}>
           Add Note
         </button>
-        {noteMessage && <p>{noteMessage}</p>}
-        {noteError && <p>{noteError}</p>}
+
+        {noteMessage && (
+          <p
+            role="status"
+            className="text-sm font-medium text-green-700 dark:text-green-400"
+          >
+            {noteMessage}
+          </p>
+        )}
+        {noteError && (
+          <p
+            role="alert"
+            className="text-sm font-medium text-red-600 dark:text-red-400"
+          >
+            {noteError}
+          </p>
+        )}
       </div>
 
       {notes.length === 0 ? (
-        <p>No follow-up notes yet.</p>
+        <p className="mt-6 text-sm text-slate-500 dark:text-slate-400">
+          No follow-up notes yet.
+        </p>
       ) : (
-        <ul>
+        <ul className="mt-6 space-y-3">
           {notes.map((note) => (
-            <li key={note.id}>
+            <li
+              key={note.id}
+              className="rounded-md border border-slate-200 border-l-4 border-l-indigo-600 bg-slate-50 p-4 dark:border-slate-800 dark:border-l-indigo-500 dark:bg-slate-950"
+            >
               {editingNoteId === note.id ? (
-                <>
+                <div className="space-y-3">
+                  <label htmlFor={`edit-note-${note.id}`} className="sr-only">
+                    Edit follow-up note
+                  </label>
                   <textarea
+                    id={`edit-note-${note.id}`}
+                    rows={3}
+                    className={textareaClasses}
                     value={editedContent}
                     onChange={(event) => setEditedContent(event.target.value)}
                   />
-                  <button type="button" onClick={handleSaveNote}>
-                    Save
-                  </button>
-                  <button type="button" onClick={() => setEditingNoteId(null)}>
-                    Cancel
-                  </button>
-                </>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      className={primaryButton}
+                      onClick={handleSaveNote}
+                    >
+                      Save
+                    </button>
+                    <button
+                      type="button"
+                      className={secondaryButton}
+                      onClick={() => setEditingNoteId(null)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
               ) : (
-                <>
+                <p className="whitespace-pre-wrap text-sm text-slate-700 dark:text-slate-200">
                   {note.content}
-                  <button type="button" onClick={() => handleEditNote(note.id)}>
-                    Edit
-                  </button>
-                </>
+                </p>
               )}
 
-              <button type="button" onClick={() => handleDeleteNote(note.id)}>
-                Delete
-              </button>
+              {editingNoteId !== note.id && (
+                <div className="mt-3 flex gap-2">
+                  <button
+                    type="button"
+                    className={secondaryButton}
+                    onClick={() => handleEditNote(note.id)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    className={dangerButton}
+                    onClick={() => handleDeleteNote(note.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
             </li>
           ))}
         </ul>

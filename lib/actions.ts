@@ -69,13 +69,8 @@ export async function fetchApplication(id: number) {
 
 export async function fetchFollowUpNotes(applicationId: number) {
   const session = await auth();
-
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-
+  if (!session) throw new Error("Unauthorized");
   const userId = Number(session.user.id);
-
   return getFollowUpNotes(applicationId, userId);
 }
 
@@ -85,37 +80,22 @@ export async function updateNote(
   content: string,
 ) {
   const session = await auth();
-
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-
+  if (!session) throw new Error("Unauthorized");
   const userId = Number(session.user.id);
-
   return updateFollowUpNote(applicationId, userId, noteId, content);
 }
 
 export async function addFollowUpNote(applicationId: number, content: string) {
   const session = await auth();
-
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-
+  if (!session) throw new Error("Unauthorized");
   const userId = Number(session.user.id);
-
   return createFollowUpNote(applicationId, userId, content);
 }
 
 export async function removeFollowUpNote(noteId: number) {
   const session = await auth();
-
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-
+  if (!session) throw new Error("Unauthorized");
   const userId = Number(session.user.id);
-
   return deleteFollowUpNote(noteId, userId);
 }
 
@@ -207,27 +187,15 @@ export async function uploadApplicationResume(
   file: File,
 ): Promise<JobApplication | null> {
   const session = await auth();
-
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-
+  if (!session) throw new Error("Unauthorized");
   const userId = Number(session.user.id);
 
   const application = await getApplicationById(id, userId);
-
-  if (!application) {
-    throw new Error("Application not found");
-  }
+  if (!application) throw new Error("Application not found");
 
   const pathname = `resumes/${userId}/${id}/${file.name}`;
-
   const blob = await uploadResume(pathname, file);
-  const updatedApplication = await updateApplication(id, userId, {
-    resume: blob.pathname,
-  });
-
-  return updatedApplication;
+  return updateApplication(id, userId, { resume: blob.pathname });
 }
 
 export async function deleteApplication(

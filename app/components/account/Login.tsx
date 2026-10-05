@@ -3,15 +3,19 @@
 import React, { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import PasswordInput from "./PasswordInput";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loginStatus, setLoginStatus] = useState("invalid");
+  const [error, setError] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
 
   async function logIn(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setError(false);
+    setSubmitting(true);
 
     const loggedIn = await signIn("credentials", {
       email,
@@ -19,39 +23,58 @@ export default function Login() {
       redirect: false,
     });
 
-    console.log("loggedIn: ", loggedIn);
     if (loggedIn?.error === undefined) {
-      setLoginStatus("valid");
       router.push("/dashboard");
     } else {
-      setLoginStatus("invalid");
+      setError(true);
+      setSubmitting(false);
     }
-    console.log("loggedIn: ", loggedIn);
   }
 
   return (
-    <div>
-      <h3>Please enter your credentials to log in.</h3>
-      <form onSubmit={logIn}>
-        <label htmlFor="email">Please enter your email: </label>
+    <form onSubmit={logIn} className="space-y-4">
+      {error && (
+        <div
+          role="alert"
+          className="rounded-[10px_0_10px_0] border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300"
+        >
+          Incorrect email or password. Please try again.
+        </div>
+      )}
+
+      <div>
+        <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+          Email
+        </label>
         <input
           id="email"
           value={email}
           type="email"
+          autoComplete="email"
           onChange={(event) => setEmail(event.target.value)}
+          className="mt-1 w-full rounded-[5px_0_5px_0] border border-slate-300 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
         />
+      </div>
 
-        <label htmlFor="password">Please enter your password: </label>
-        <input
-          type="password"
+      <div>
+        <label htmlFor="password" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+          Password
+        </label>
+        <PasswordInput
           id="password"
           value={password}
+          autoComplete="current-password"
           onChange={(event) => setPassword(event.target.value)}
         />
+      </div>
 
-        <button type="submit">Log In</button>
-      </form>
-      <p>Login Status: {loginStatus}</p>
-    </div>
+      <button
+        type="submit"
+        disabled={submitting}
+        className="w-full rounded-[10px_0_10px_0] bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 disabled:opacity-60"
+      >
+        {submitting ? "Signing in..." : "Log In"}
+      </button>
+    </form>
   );
 }

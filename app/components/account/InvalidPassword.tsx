@@ -1,9 +1,16 @@
-export default function invalidPassword() {
+// InvalidPassword.tsx
+export default function InvalidPassword() {
   return (
-    <section>
-      <h3>Registration failed</h3>
-      <p>The passwords did not match. </p>
-      <p>Please try again.</p>
-    </section>
+    <div
+      role="alert"
+      className="rounded-[10px_0_10px_0] border border-red-200 bg-red-50 p-4 dark:border-red-900 dark:bg-red-950"
+    >
+      <p className="font-heading text-sm font-semibold text-red-800 dark:text-red-300">
+        Registration failed
+      </p>
+      <p className="mt-1 text-sm text-red-700 dark:text-red-400">
+        Your passwords didn&apos;t match. Please try again.
+      </p>
+    </div>
   );
 }

@@ -39,107 +39,112 @@ export default function ApplicationForm(input: ApplicationFormProps) {
     input.initialValues.dateApplied,
   );
 
-  let submitLabel: string;
-
-  if (input.displayDate) {
-    submitLabel = "Save Application";
-  } else {
-    submitLabel = "Update Application";
-  }
+  const submitLabel = input.displayDate ? "Save Application" : "Update Application";
 
   return (
-    <section className="grid gap-4 max-w-[500px] mx-auto">
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          input.onSubmit({
-            company,
-            role,
-            status,
-            dateApplied,
-            resumeFile,
-          });
-        }}
-      >
-        <div>
-          <label htmlFor="company">Company</label>
-          <input
-            type="text"
-            id="company"
-            value={company}
-            required
-            onChange={(event) => setCompany(event.target.value)}
-          />
-          {input.fieldErrors?.company && (
-            <p className="text-red-500">{input.fieldErrors.company[0]}</p>
-          )}
-        </div>
-
-        <div>
-          <label htmlFor="role">Role</label>
-          <input
-            type="text"
-            id="role"
-            value={role}
-            required
-            onChange={(event) => setRole(event.target.value)}
-          />
-          {input.fieldErrors?.role && (
-            <p className="text-red-500">{input.fieldErrors.role[0]}</p>
-          )}
-        </div>
-
-        <div>
-          <label htmlFor="status">Status</label>
-          <select
-            id="status"
-            value={status}
-            onChange={(event) =>
-              setStatus(event.target.value as ApplicationStatus)
-            }
-          >
-            {statusOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-          {input.fieldErrors?.status && (
-            <p className="text-red-500">{input.fieldErrors.status[0]}</p>
-          )}
-        </div>
-        {input.displayDate && (
-          <div>
-            <label htmlFor="dateApplied">Date Applied</label>
-            <input
-              id="dateApplied"
-              type="date"
-              value={dateApplied}
-              required
-              max={new Date().toISOString().split("T")[0]}
-              onChange={(event) => setDateApplied(event.target.value)}
-            />
-            {input.fieldErrors?.dateApplied && (
-              <p className="text-red-500">{input.fieldErrors.dateApplied[0]}</p>
-            )}
-          </div>
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        input.onSubmit({ company, role, status, dateApplied, resumeFile });
+      }}
+      className="space-y-4"
+    >
+      <div>
+        <label htmlFor="company" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+          Company
+        </label>
+        <input
+          type="text"
+          id="company"
+          value={company}
+          required
+          onChange={(event) => setCompany(event.target.value)}
+          className="mt-1 w-full rounded-[5px_0_5px_0] border border-slate-300 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+        />
+        {input.fieldErrors?.company && (
+          <p className="mt-1 text-xs text-red-600">{input.fieldErrors.company[0]}</p>
         )}
+      </div>
 
+      <div>
+        <label htmlFor="role" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+          Role
+        </label>
+        <input
+          type="text"
+          id="role"
+          value={role}
+          required
+          onChange={(event) => setRole(event.target.value)}
+          className="mt-1 w-full rounded-[5px_0_5px_0] border border-slate-300 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+        />
+        {input.fieldErrors?.role && (
+          <p className="mt-1 text-xs text-red-600">{input.fieldErrors.role[0]}</p>
+        )}
+      </div>
+
+      <div>
+        <label htmlFor="status" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+          Status
+        </label>
+        <select
+          id="status"
+          value={status}
+          onChange={(event) => setStatus(event.target.value as ApplicationStatus)}
+          className="mt-1 w-full rounded-[5px_0_5px_0] border border-slate-300 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+        >
+          {statusOptions.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+        {input.fieldErrors?.status && (
+          <p className="mt-1 text-xs text-red-600">{input.fieldErrors.status[0]}</p>
+        )}
+      </div>
+
+      {input.displayDate && (
         <div>
-          <label htmlFor="resume">Resume</label>
+          <label htmlFor="dateApplied" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+            Date Applied
+          </label>
           <input
-            type="file"
-            id="resume"
-            onChange={(event) => setResumeFile(event.target.files?.[0] ?? null)}
+            id="dateApplied"
+            type="date"
+            value={dateApplied}
+            required
+            max={new Date().toISOString().split("T")[0]}
+            onChange={(event) => setDateApplied(event.target.value)}
+            className="mt-1 w-full rounded-[5px_0_5px_0] border border-slate-300 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
           />
-          <p>
-            Current Attached Resume:{" "}
-            {input.initialValues.resume?.split("/").pop() || "None"}
-          </p>
+          {input.fieldErrors?.dateApplied && (
+            <p className="mt-1 text-xs text-red-600">{input.fieldErrors.dateApplied[0]}</p>
+          )}
         </div>
+      )}
 
-        <button type="submit">{submitLabel}</button>
-      </form>
-    </section>
+      <div>
+        <label htmlFor="resume" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+          Resume
+        </label>
+        <input
+          type="file"
+          id="resume"
+          onChange={(event) => setResumeFile(event.target.files?.[0] ?? null)}
+          className="mt-1 w-full text-sm text-slate-600 file:mr-3 file:rounded-[5px_0_5px_0] file:border-0 file:bg-slate-100 file:px-3 file:py-2 file:text-sm file:font-medium file:text-slate-700 hover:file:bg-slate-200 dark:text-slate-400 dark:file:bg-slate-800 dark:file:text-slate-200"
+        />
+        <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+          Current: {input.initialValues.resume?.split("/").pop() || "None"}
+        </p>
+      </div>
+
+      <button
+        type="submit"
+        className="w-full rounded-[10px_0_10px_0] bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
+      >
+        {submitLabel}
+      </button>
+    </form>
   );
 }

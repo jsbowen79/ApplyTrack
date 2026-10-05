@@ -1,4 +1,3 @@
-// lib/applications-db.ts
 import { neon } from "@neondatabase/serverless";
 import type {
   DeletedApplication,
@@ -157,3 +156,4 @@ export async function restoreApplication(
   `;
   return (result[0] as JobApplication) ?? null;
 }
+
