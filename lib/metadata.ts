@@ -6,8 +6,8 @@ export const SITE_DESCRIPTION =
 
 export const OG_IMAGE = {
   url: "/nav-logo.webp",
-  width: 1200,
-  height: 630,
+  width: 2172,
+  height: 724,
   alt: "ApplyTrack — job application tracker",
 };
 
