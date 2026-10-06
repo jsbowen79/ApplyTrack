@@ -54,8 +54,19 @@ export default function AuthenticatedShell({
   const sidebarContent = (
     <>
       <div>
-        <Link href="/" className="flex items-center" onClick={() => setOpen(false)}>
-          <Image src="/nav-logo.webp" alt="ApplyTrack" width={160} height={44} className="h-10 w-auto" priority />
+        <Link
+          href="/"
+          className="flex items-center"
+          onClick={() => setOpen(false)}
+        >
+          <Image
+            src="/nav-logo.webp"
+            alt="ApplyTrack"
+            width={160}
+            height={44}
+            className="h-10 w-auto"
+            priority
+          />
         </Link>
 
         <div className="mt-6 flex items-center gap-3 rounded-[10px_0_10px_0] bg-slate-50 px-3 py-2.5 dark:bg-slate-900">
@@ -107,7 +118,14 @@ export default function AuthenticatedShell({
     <div className="flex min-h-screen flex-col lg:flex-row">
       <div className="sticky top-0 z-40 flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3 lg:hidden dark:border-slate-800 dark:bg-slate-950">
         <Link href="/dashboard" className="flex items-center">
-          <Image src="/nav-logo.webp" alt="ApplyTrack" width={120} height={32} className="h-8 w-auto" priority />
+          <Image
+            src="/nav-logo.webp"
+            alt="ApplyTrack"
+            width={120}
+            height={32}
+            className="h-8 w-auto"
+            priority
+          />
         </Link>
         <button
           type="button"
@@ -116,18 +134,35 @@ export default function AuthenticatedShell({
           aria-label="Open menu"
           className="flex h-9 w-9 items-center justify-center rounded-[5px_0_5px_0] text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-900"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
           </svg>
         </button>
       </div>
 
       <div
         className={`fixed inset-0 z-50 lg:hidden transition-opacity duration-300 ${
-          open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+          open
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0"
         }`}
       >
-        <div className="absolute inset-0 bg-slate-900/40" onClick={() => setOpen(false)} aria-hidden="true" />
+        <div
+          className="absolute inset-0 bg-slate-900/40"
+          onClick={() => setOpen(false)}
+          aria-hidden="true"
+        />
         <div
           className={`absolute left-0 top-0 flex h-full w-72 max-w-[85%] flex-col justify-between bg-white px-4 py-6 shadow-xl transition-transform duration-300 ease-in-out dark:bg-slate-950 ${
             open ? "translate-x-0" : "-translate-x-full"

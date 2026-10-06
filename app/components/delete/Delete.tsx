@@ -10,8 +10,12 @@ export default function DeleteApplicationPage() {
   const router = useRouter();
   const { id } = useParams();
   const [deleted, setDeleted] = useState<DeletedApplication | null>(null);
-  const [status, setStatus] = useState<"confirming" | "deleting" | "deleted" | "error">("confirming");
-  const [restored, setRestored] = useState<"idle" | "restoring" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "confirming" | "deleting" | "deleted" | "error"
+  >("confirming");
+  const [restored, setRestored] = useState<
+    "idle" | "restoring" | "success" | "error"
+  >("idle");
 
   async function handleDelete() {
     setStatus("deleting");
@@ -54,7 +58,8 @@ export default function DeleteApplicationPage() {
               Delete this application?
             </h1>
             <p className="text-sm text-slate-600 dark:text-slate-400">
-              This will remove the application from your dashboard. You can undo it right after, but not later.
+              This will remove the application from your dashboard. You can undo
+              it right after, but not later.
             </p>
             <div className="flex gap-3">
               <button
@@ -78,7 +83,8 @@ export default function DeleteApplicationPage() {
               role="alert"
               className="rounded-[10px_0_10px_0] border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300"
             >
-              Something went wrong deleting this application. It may not belong to you, or it may no longer exist.
+              Something went wrong deleting this application. It may not belong
+              to you, or it may no longer exist.
             </div>
             <button
               onClick={() => router.push("/dashboard")}

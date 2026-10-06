@@ -39,7 +39,10 @@ export default function Home() {
     <div className="flex flex-1 flex-col">
       {/* Hero */}
       <section className="relative overflow-hidden px-6 py-24">
-        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div
+          className="pointer-events-none absolute inset-0 overflow-hidden"
+          aria-hidden="true"
+        >
           <div className="absolute -top-10 left-10 h-40 w-40 rounded-full bg-blue-200/40 blur-3xl animate-float-slow dark:bg-blue-900/20" />
           <div className="absolute top-1/3 right-10 h-56 w-56 rounded-full bg-indigo-200/40 blur-3xl animate-float-medium dark:bg-indigo-900/20" />
           <div className="absolute bottom-0 left-1/3 h-48 w-48 rounded-full bg-amber-200/30 blur-3xl animate-float-slow dark:bg-amber-900/10" />
@@ -61,19 +64,29 @@ export default function Home() {
               Track every application. Land the right offer.
             </h1>
             <p className="mt-4 text-lg text-slate-600 dark:text-slate-400">
-              ApplyTrack keeps your job search organized – one dashboard for every
-              company, role, and status, so nothing slips through the cracks.
+              ApplyTrack keeps your job search organized – one dashboard for
+              every company, role, and status, so nothing slips through the
+              cracks.
             </p>
 
             <div
               className="mt-8 flex items-center justify-center gap-3 lg:justify-start"
               aria-hidden="true"
             >
-              <span className="h-3 w-3 rounded-full bg-blue-500 animate-pulse-soft" style={{ animationDelay: "0s" }} />
+              <span
+                className="h-3 w-3 rounded-full bg-blue-500 animate-pulse-soft"
+                style={{ animationDelay: "0s" }}
+              />
               <span className="h-px w-10 border-t-2 border-dashed border-slate-300 dark:border-slate-700" />
-              <span className="h-3 w-3 rounded-full bg-amber-500 animate-pulse-soft" style={{ animationDelay: "1.3s" }} />
+              <span
+                className="h-3 w-3 rounded-full bg-amber-500 animate-pulse-soft"
+                style={{ animationDelay: "1.3s" }}
+              />
               <span className="h-px w-10 border-t-2 border-dashed border-slate-300 dark:border-slate-700" />
-              <span className="h-3 w-3 rounded-full bg-green-500 animate-pulse-soft" style={{ animationDelay: "2.6s" }} />
+              <span
+                className="h-3 w-3 rounded-full bg-green-500 animate-pulse-soft"
+                style={{ animationDelay: "2.6s" }}
+              />
             </div>
 
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">

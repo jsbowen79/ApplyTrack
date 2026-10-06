@@ -39,7 +39,9 @@ export default function ApplicationForm(input: ApplicationFormProps) {
     input.initialValues.dateApplied,
   );
 
-  const submitLabel = input.displayDate ? "Save Application" : "Update Application";
+  const submitLabel = input.displayDate
+    ? "Save Application"
+    : "Update Application";
 
   return (
     <form
@@ -50,7 +52,10 @@ export default function ApplicationForm(input: ApplicationFormProps) {
       className="space-y-4"
     >
       <div>
-        <label htmlFor="company" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+        <label
+          htmlFor="company"
+          className="block text-sm font-medium text-slate-700 dark:text-slate-300"
+        >
           Company
         </label>
         <input
@@ -62,12 +67,17 @@ export default function ApplicationForm(input: ApplicationFormProps) {
           className="mt-1 w-full rounded-[5px_0_5px_0] border border-slate-300 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
         />
         {input.fieldErrors?.company && (
-          <p className="mt-1 text-xs text-red-600">{input.fieldErrors.company[0]}</p>
+          <p className="mt-1 text-xs text-red-600">
+            {input.fieldErrors.company[0]}
+          </p>
         )}
       </div>
 
       <div>
-        <label htmlFor="role" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+        <label
+          htmlFor="role"
+          className="block text-sm font-medium text-slate-700 dark:text-slate-300"
+        >
           Role
         </label>
         <input
@@ -79,18 +89,25 @@ export default function ApplicationForm(input: ApplicationFormProps) {
           className="mt-1 w-full rounded-[5px_0_5px_0] border border-slate-300 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
         />
         {input.fieldErrors?.role && (
-          <p className="mt-1 text-xs text-red-600">{input.fieldErrors.role[0]}</p>
+          <p className="mt-1 text-xs text-red-600">
+            {input.fieldErrors.role[0]}
+          </p>
         )}
       </div>
 
       <div>
-        <label htmlFor="status" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+        <label
+          htmlFor="status"
+          className="block text-sm font-medium text-slate-700 dark:text-slate-300"
+        >
           Status
         </label>
         <select
           id="status"
           value={status}
-          onChange={(event) => setStatus(event.target.value as ApplicationStatus)}
+          onChange={(event) =>
+            setStatus(event.target.value as ApplicationStatus)
+          }
           className="mt-1 w-full rounded-[5px_0_5px_0] border border-slate-300 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
         >
           {statusOptions.map((option) => (
@@ -100,13 +117,18 @@ export default function ApplicationForm(input: ApplicationFormProps) {
           ))}
         </select>
         {input.fieldErrors?.status && (
-          <p className="mt-1 text-xs text-red-600">{input.fieldErrors.status[0]}</p>
+          <p className="mt-1 text-xs text-red-600">
+            {input.fieldErrors.status[0]}
+          </p>
         )}
       </div>
 
       {input.displayDate && (
         <div>
-          <label htmlFor="dateApplied" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+          <label
+            htmlFor="dateApplied"
+            className="block text-sm font-medium text-slate-700 dark:text-slate-300"
+          >
             Date Applied
           </label>
           <input
@@ -119,13 +141,18 @@ export default function ApplicationForm(input: ApplicationFormProps) {
             className="mt-1 w-full rounded-[5px_0_5px_0] border border-slate-300 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
           />
           {input.fieldErrors?.dateApplied && (
-            <p className="mt-1 text-xs text-red-600">{input.fieldErrors.dateApplied[0]}</p>
+            <p className="mt-1 text-xs text-red-600">
+              {input.fieldErrors.dateApplied[0]}
+            </p>
           )}
         </div>
       )}
 
       <div>
-        <label htmlFor="resume" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+        <label
+          htmlFor="resume"
+          className="block text-sm font-medium text-slate-700 dark:text-slate-300"
+        >
           Resume
         </label>
         <input

@@ -156,4 +156,3 @@ export async function restoreApplication(
   `;
   return (result[0] as JobApplication) ?? null;
 }
-

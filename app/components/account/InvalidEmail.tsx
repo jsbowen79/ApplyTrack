@@ -9,7 +9,8 @@ export default function InvalidEmail() {
         Registration failed
       </p>
       <p className="mt-1 text-sm text-red-700 dark:text-red-400">
-        That email is already registered. Please use another email or log in instead.
+        That email is already registered. Please use another email or log in
+        instead.
       </p>
     </div>
   );
