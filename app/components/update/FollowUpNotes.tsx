@@ -19,7 +19,7 @@ const secondaryButton =
   "rounded-[10px_0_10px_0] border border-slate-500 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-500 dark:text-slate-200 dark:hover:bg-slate-800";
 
 const dangerButton =
-  "rounded-[10px_0_10px_0] border border-red-200 px-3 py-1.5 text-sm font-semibold text-red-800 hover:bg-red-50 dark:border-red-500 dark:text-red-300 dark:hover:bg-red-950";
+  "rounded-[10px_0_10px_0] border border-red-500 px-3 py-1.5 text-sm font-semibold text-red-800 hover:bg-red-50 dark:border-red-500 dark:text-red-300 dark:hover:bg-red-950";
 
 export default function FollowUpNotes({
   applicationId,

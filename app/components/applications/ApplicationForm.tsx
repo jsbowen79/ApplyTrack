@@ -132,7 +132,7 @@ export default function ApplicationForm(input: ApplicationFormProps) {
           type="file"
           id="resume"
           onChange={(event) => setResumeFile(event.target.files?.[0] ?? null)}
-          className="mt-1 w-full text-sm text-slate-700 file:mr-3 file:rounded-[5px_0_5px_0] file:border-0 file:bg-slate-100 file:px-3 file:py-2 file:text-sm file:font-medium file:text-slate-700 hover:file:bg-slate-200 dark:text-slate-300 dark:file:bg-slate-800 dark:file:text-slate-200"
+          className="mt-1 w-full text-sm text-slate-700 file:mr-3 file:rounded-[5px_0_5px_0] file:border file:border-slate-500 file:bg-slate-100 file:px-3 file:py-2 file:text-sm file:font-medium file:text-slate-700 hover:file:bg-slate-200 dark:text-slate-300 dark:file:border-slate-500 dark:file:bg-slate-800 dark:file:text-slate-200"
         />
         <p className="mt-1 text-xs text-slate-700 dark:text-slate-300">
           Current: {input.initialValues.resume?.split("/").pop() || "None"}

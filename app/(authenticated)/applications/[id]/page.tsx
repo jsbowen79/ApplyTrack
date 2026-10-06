@@ -115,7 +115,7 @@ export default async function ApplicationPage({
           </Link>
           <Link
             href={`/applications/${application.id}/delete`}
-            className="rounded-[10px_0_10px_0] border border-red-200 px-4 py-2.5 text-sm font-semibold text-red-800 hover:bg-red-50 dark:border-red-500 dark:text-red-300 dark:hover:bg-red-950"
+            className="rounded-[10px_0_10px_0] border border-red-500 px-4 py-2.5 text-sm font-semibold text-red-800 hover:bg-red-50 dark:border-red-500 dark:text-red-300 dark:hover:bg-red-950"
           >
             Delete
           </Link>

@@ -76,7 +76,7 @@ export default function DeleteApplicationPage() {
           <div className="space-y-4">
             <div
               role="alert"
-              className="rounded-[10px_0_10px_0] border border-red-200 bg-red-50 p-3 text-sm text-red-900 dark:border-red-900 dark:bg-red-950 dark:text-red-300"
+              className="rounded-[10px_0_10px_0] border border-red-900 bg-red-50 p-3 text-sm text-red-900 dark:border-red-300 dark:bg-red-950 dark:text-red-300"
             >
               Something went wrong deleting this application. It may not belong to you, or it may no longer exist.
             </div>
@@ -92,14 +92,14 @@ export default function DeleteApplicationPage() {
             {restored === "success" ? (
               <div
                 role="status"
-                className="rounded-[10px_0_10px_0] border border-green-200 bg-green-50 p-3 text-sm text-green-900 dark:border-green-900 dark:bg-green-950 dark:text-green-300"
+                className="rounded-[10px_0_10px_0] border border-green-900 bg-green-50 p-3 text-sm text-green-900 dark:border-green-300 dark:bg-green-950 dark:text-green-300"
               >
                 Application restored.
               </div>
             ) : (
               <div
                 role="status"
-                className="rounded-[10px_0_10px_0] border border-green-200 bg-green-50 p-3 text-sm text-green-900 dark:border-green-900 dark:bg-green-950 dark:text-green-300"
+                className="rounded-[10px_0_10px_0] border border-green-900 bg-green-50 p-3 text-sm text-green-900 dark:border-green-300 dark:bg-green-950 dark:text-green-300"
               >
                 Application deleted.
               </div>
@@ -107,7 +107,7 @@ export default function DeleteApplicationPage() {
             {restored === "error" && (
               <div
                 role="alert"
-                className="rounded-[10px_0_10px_0] border border-red-200 bg-red-50 p-3 text-sm text-red-900 dark:border-red-900 dark:bg-red-950 dark:text-red-300"
+                className="rounded-[10px_0_10px_0] border border-red-900 bg-red-50 p-3 text-sm text-red-900 dark:border-red-300 dark:bg-red-950 dark:text-red-300"
               >
                 Failed to restore the application.
               </div>

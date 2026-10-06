@@ -36,7 +36,7 @@ export default function Login() {
       {error && (
         <div
           role="alert"
-          className="rounded-[10px_0_10px_0] border border-red-200 bg-red-50 p-3 text-sm text-red-900 dark:border-red-900 dark:bg-red-950 dark:text-red-300"
+          className="rounded-[10px_0_10px_0] border border-red-900 bg-red-50 p-3 text-sm text-red-900 dark:border-red-300 dark:bg-red-950 dark:text-red-300"
         >
           Incorrect email or password. Please try again.
         </div>

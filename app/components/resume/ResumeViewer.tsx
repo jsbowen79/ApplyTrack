@@ -69,7 +69,7 @@ export default function ResumeViewer({
       {error && (
         <p
           role="alert"
-          className="mt-3 rounded-[10px_0_10px_0] border border-red-200 bg-red-50 p-3 text-sm text-red-900 dark:border-red-900 dark:bg-red-950 dark:text-red-300"
+          className="mt-3 rounded-[10px_0_10px_0] border border-red-900 bg-red-50 p-3 text-sm text-red-900 dark:border-red-300 dark:bg-red-950 dark:text-red-300"
         >
           {error}
         </p>

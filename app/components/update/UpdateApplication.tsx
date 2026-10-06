@@ -84,17 +84,17 @@ export default function UpdateApplication({ id }: { id: number }) {
   return (
     <div className="space-y-6">
       {updateStatus === "success" && (
-        <div className="rounded-[10px_0_10px_0] border border-green-200 bg-green-50 p-3 text-sm text-green-900 dark:border-green-900 dark:bg-green-950 dark:text-green-300">
+        <div className="rounded-[10px_0_10px_0] border border-green-900 bg-green-50 p-3 text-sm text-green-900 dark:border-green-300 dark:bg-green-950 dark:text-green-300">
           Application updated successfully.
         </div>
       )}
       {updateStatus === "resumeFailure" && (
-        <div className="rounded-[10px_0_10px_0] border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-300">
+        <div className="rounded-[10px_0_10px_0] border border-amber-900 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-300 dark:bg-amber-950 dark:text-amber-300">
           Application updated, but the resume upload failed. Try uploading it again.
         </div>
       )}
       {updateStatus === "error" && (
-        <div className="rounded-[10px_0_10px_0] border border-red-200 bg-red-50 p-3 text-sm text-red-900 dark:border-red-900 dark:bg-red-950 dark:text-red-300">
+        <div className="rounded-[10px_0_10px_0] border border-red-900 bg-red-50 p-3 text-sm text-red-900 dark:border-red-300 dark:bg-red-950 dark:text-red-300">
           Failed to update application. Please try again.
         </div>
       )}
