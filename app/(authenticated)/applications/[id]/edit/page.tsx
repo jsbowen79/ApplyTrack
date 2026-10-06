@@ -19,7 +19,7 @@ export default async function EditApplicationPage({
       <h1 className="font-heading text-2xl font-bold mb-1 text-slate-900 dark:text-slate-50">
         Edit Application
       </h1>
-      <p className="text-slate-500 dark:text-slate-400 mb-6">
+      <p className="text-slate-700 dark:text-slate-300 mb-6">
         Update the details or add follow-up notes.
       </p>
       <UpdateApplication id={Number(id)} />

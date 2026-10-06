@@ -10,16 +10,16 @@ import {
 import type { FollowUpNote } from "@/lib/types";
 
 const textareaClasses =
-  "block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-600/30 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-50";
+  "block w-full rounded-md border border-slate-500 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-700 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 dark:border-slate-500 dark:bg-slate-950 dark:text-slate-50 dark:placeholder:text-slate-300";
 
 const primaryButton =
-  "rounded-[10px_0_10px_0] bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600";
+  "rounded-[10px_0_10px_0] bg-indigo-700 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500";
 
 const secondaryButton =
-  "rounded-[10px_0_10px_0] border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800";
+  "rounded-[10px_0_10px_0] border border-slate-500 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-500 dark:text-slate-200 dark:hover:bg-slate-800";
 
 const dangerButton =
-  "rounded-[10px_0_10px_0] border border-red-200 px-3 py-1.5 text-sm font-semibold text-red-600 hover:bg-red-50 dark:border-red-900 dark:hover:bg-red-950";
+  "rounded-[10px_0_10px_0] border border-red-200 px-3 py-1.5 text-sm font-semibold text-red-800 hover:bg-red-50 dark:border-red-500 dark:text-red-300 dark:hover:bg-red-950";
 
 export default function FollowUpNotes({
   applicationId,
@@ -158,7 +158,7 @@ export default function FollowUpNotes({
         {noteMessage && (
           <p
             role="status"
-            className="text-sm font-medium text-green-700 dark:text-green-400"
+            className="text-sm font-medium text-green-900 dark:text-green-300"
           >
             {noteMessage}
           </p>
@@ -166,7 +166,7 @@ export default function FollowUpNotes({
         {noteError && (
           <p
             role="alert"
-            className="text-sm font-medium text-red-600 dark:text-red-400"
+            className="text-sm font-medium text-red-800 dark:text-red-300"
           >
             {noteError}
           </p>
@@ -174,7 +174,7 @@ export default function FollowUpNotes({
       </div>
 
       {notes.length === 0 ? (
-        <p className="mt-6 text-sm text-slate-500 dark:text-slate-400">
+        <p className="mt-6 text-sm text-slate-700 dark:text-slate-300">
           No follow-up notes yet.
         </p>
       ) : (

@@ -53,20 +53,20 @@ export default function DeleteApplicationPage() {
             <h1 className="font-heading text-xl font-bold text-slate-900 dark:text-slate-50">
               Delete this application?
             </h1>
-            <p className="text-sm text-slate-600 dark:text-slate-400">
+            <p className="text-sm text-slate-700 dark:text-slate-300">
               This will remove the application from your dashboard. You can undo it right after, but not later.
             </p>
             <div className="flex gap-3">
               <button
                 onClick={handleDelete}
                 disabled={status === "deleting"}
-                className="rounded-[10px_0_10px_0] bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-red-700 disabled:opacity-60"
+                className="rounded-[10px_0_10px_0] bg-red-800 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-red-900 disabled:cursor-not-allowed"
               >
                 {status === "deleting" ? "Deleting..." : "Yes, Delete"}
               </button>
               <button
                 onClick={() => router.push("/dashboard")}
-                className="rounded-[10px_0_10px_0] border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900"
+                className="rounded-[10px_0_10px_0] border border-slate-500 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-500 dark:text-slate-200 dark:hover:bg-slate-900"
               >
                 No, Cancel
               </button>
@@ -76,13 +76,13 @@ export default function DeleteApplicationPage() {
           <div className="space-y-4">
             <div
               role="alert"
-              className="rounded-[10px_0_10px_0] border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300"
+              className="rounded-[10px_0_10px_0] border border-red-200 bg-red-50 p-3 text-sm text-red-900 dark:border-red-900 dark:bg-red-950 dark:text-red-300"
             >
               Something went wrong deleting this application. It may not belong to you, or it may no longer exist.
             </div>
             <button
               onClick={() => router.push("/dashboard")}
-              className="rounded-[10px_0_10px_0] border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900"
+              className="rounded-[10px_0_10px_0] border border-slate-500 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-500 dark:text-slate-200 dark:hover:bg-slate-900"
             >
               Back to Dashboard
             </button>
@@ -92,14 +92,14 @@ export default function DeleteApplicationPage() {
             {restored === "success" ? (
               <div
                 role="status"
-                className="rounded-[10px_0_10px_0] border border-green-200 bg-green-50 p-3 text-sm text-green-700 dark:border-green-900 dark:bg-green-950 dark:text-green-300"
+                className="rounded-[10px_0_10px_0] border border-green-200 bg-green-50 p-3 text-sm text-green-900 dark:border-green-900 dark:bg-green-950 dark:text-green-300"
               >
                 Application restored.
               </div>
             ) : (
               <div
                 role="status"
-                className="rounded-[10px_0_10px_0] border border-green-200 bg-green-50 p-3 text-sm text-green-700 dark:border-green-900 dark:bg-green-950 dark:text-green-300"
+                className="rounded-[10px_0_10px_0] border border-green-200 bg-green-50 p-3 text-sm text-green-900 dark:border-green-900 dark:bg-green-950 dark:text-green-300"
               >
                 Application deleted.
               </div>
@@ -107,7 +107,7 @@ export default function DeleteApplicationPage() {
             {restored === "error" && (
               <div
                 role="alert"
-                className="rounded-[10px_0_10px_0] border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300"
+                className="rounded-[10px_0_10px_0] border border-red-200 bg-red-50 p-3 text-sm text-red-900 dark:border-red-900 dark:bg-red-950 dark:text-red-300"
               >
                 Failed to restore the application.
               </div>
@@ -117,14 +117,14 @@ export default function DeleteApplicationPage() {
                 <button
                   onClick={handleUndo}
                   disabled={restored === "restoring"}
-                  className="rounded-[10px_0_10px_0] bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60"
+                  className="rounded-[10px_0_10px_0] bg-indigo-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-800 disabled:cursor-not-allowed"
                 >
                   {restored === "restoring" ? "Restoring..." : "Undo Deletion"}
                 </button>
               )}
               <Link
                 href="/dashboard"
-                className="rounded-[10px_0_10px_0] border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900"
+                className="rounded-[10px_0_10px_0] border border-slate-500 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-500 dark:text-slate-200 dark:hover:bg-slate-900"
               >
                 Back to Dashboard
               </Link>
