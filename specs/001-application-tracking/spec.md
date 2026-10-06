@@ -137,6 +137,51 @@ verify that an owned application no longer appears.
 3. **Given** a user attempts to delete a record they do not own, **When** the
    request is submitted, **Then** access is denied and no record is deleted.
 
+
+### User Story 6 - Manage follow-up notes (Priority: P2)
+
+As a job seeker, I want to add, view, edit, and delete follow-up notes for my applications so that I can keep track of important communication and follow-up details.
+
+**Why this priority**: Follow-up notes provide useful context for applications but are secondary to the core application tracking workflow.
+
+**Independent Test**: A signed-in user can open an owned application, add a follow-up note, view the saved note, edit it, and delete it.
+
+**Acceptance Scenarios**:
+
+1. **Given** a signed-in user owns an application, **When** they submit a valid follow-up note, **Then** the note is saved and associated with that application.
+
+2. **Given** an application has follow-up notes, **When** the user views the application, **Then** the associated notes are displayed.
+
+3. **Given** a user owns a follow-up note, **When** they edit the note with valid content, **Then** the updated note is saved and displayed.
+
+4. **Given** a user owns a follow-up note, **When** they delete the note and confirm the action, **Then** the note is removed from the application.
+
+5. **Given** a follow-up note is invalid or exceeds the allowed length, **When** the user submits or updates it, **Then** the note is rejected and clear validation feedback is provided.
+
+6. **Given** a user attempts to access or modify a follow-up note associated with another user's application, **When** the operation is submitted, **Then** access is denied and the note is not exposed or modified.
+
+### User Story 7 - Manage application resumes (Priority: P2)
+
+As a job seeker, I want to attach a resume to an application and view or download it later so that I can keep the resume associated with the job opportunity.
+
+**Why this priority**: A resume is useful supporting information for an application but is not required for the core application-tracking workflow.
+
+**Independent Test**: A signed-in user can upload a resume to an owned application, view it in the resume viewer, download it, and replace it with a different resume.
+
+**Acceptance Scenarios**:
+
+1. **Given** a signed-in user owns an application, **When** they upload a resume, **Then** the resume is stored and associated with that application.
+
+2. **Given** an application has an associated resume, **When** the user selects the resume viewer, **Then** the resume is displayed without requiring the user to leave the application details page.
+
+3. **Given** an application has an associated resume, **When** the user chooses to download it, **Then** the resume is downloaded successfully.
+
+4. **Given** an application already has a resume, **When** the user uploads a replacement resume, **Then** the new resume becomes the resume associated with the application.
+
+5. **Given** a resume is unavailable or cannot be loaded, **When** the user attempts to view it, **Then** the application provides a clear error state and does not expose unrelated resume data.
+
+6. **Given** a user attempts to access a resume associated with another user's application, **When** the request is submitted, **Then** access is denied and the resume is not exposed.
+
 ### Edge Cases
 
 - Company and role values containing surrounding whitespace are trimmed.
@@ -157,15 +202,21 @@ verify that an owned application no longer appears.
 - **FR-002**: The system MUST isolate each user's application records from every
   other user's records.
 - **FR-003**: The system MUST allow a signed-in user to create an application with
-  company, role, status, date applied, and optional follow-up notes.
+  company, role, status, date applied, and optional follow-up notes. Follow-up
+  notes are stored as a separate data model associated with an application by
+  `applicationId`, rather than being embedded as fields on the application
+  record itself.
 - **FR-004**: The system MUST validate required fields, supported statuses, date
   values, and note length before creating or updating an application.
 - **FR-005**: The system MUST show a signed-in user all of their applications on a
   dashboard with company, role, status, date applied, and notes availability.
 - **FR-006**: The system MUST show an actionable empty state when a user has no
   applications.
-- **FR-007**: The system MUST allow a user to edit any owned application field
-  supported by the create workflow, including status and follow-up notes.
+- **FR-007**: The system MUST allow a user to edit the supported fields of an owned 
+  application, including company, role, and status. The `dateApplied` field MUST be
+  required when creating an application and MUST NOT be editable after the application 
+  is created. Follow-up note changes MUST be handled through the note-specific 
+  operations defined in User Story 6.
 - **FR-008**: The system MUST allow a user to delete an owned application only
   after explicit confirmation.
 - **FR-009**: The system MUST reject unauthenticated application read, create,
@@ -174,23 +225,17 @@ verify that an owned application no longer appears.
   another user without exposing that record's data.
 - **FR-011**: The system MUST provide clear success, validation, empty, loading,
   and failure feedback for each workflow.
-- **FR-012**: The application MUST provide these CRUD endpoints:
-
-  | Method | Endpoint                 | Purpose                                | Priority |
-  | ------ | ------------------------ | -------------------------------------- | -------- |
-  | GET    | `/api/applications`      | List the signed-in user's applications | P1       |
-  | POST   | `/api/applications`      | Create an application                  | P1       |
-  | GET    | `/api/applications/{id}` | Read one owned application             | P1       |
-  | PATCH  | `/api/applications/{id}` | Update an owned application            | P1       |
-  | DELETE | `/api/applications/{id}` | Delete an owned application            | P2       |
-
-  These endpoints MUST enforce the same authentication, ownership, validation, and
-  error-handling rules as the user interface.
-
-- **FR-013**: Authentication MUST use an approved hosted or project-compatible
-  authentication provider. The provider choice and exact authentication routes or
-  endpoint behavior MUST be determined during planning; this specification does not
-  require custom authentication endpoints.
+- **FR-012**: The application MUST support authenticated application CRUD using
+  either Server Actions or API Route Handlers, provided the implementation
+  enforces the same authentication, ownership, validation, and error-handling
+  rules as the user interface.  The application must contain at least one 
+  API Route Handler that is consumed by a client component.  Other than this, 
+  the CRUD requirement is behavioral rather than a fixed set of five REST 
+  endpoint paths; successful and unsuccessful create, read, update, and delete 
+  behavior must be covered for the chosen implementation approach.
+**FR-013**: Authentication MUST use Auth.js v5 with credentials-based authentication. 
+  Authentication MUST protect application data and enforce user identity and session 
+  requirements for all protected application operations.
 - **FR-014**: Implementation priority MUST be authentication and data isolation
   first, then application creation and dashboard viewing, then editing and status
   or note updates, and finally deletion.
@@ -201,8 +246,11 @@ verify that an owned application no longer appears.
 ### Key Entities _(include if feature involves data)_
 
 - **User**: A person with an account and private application records.
-- **Job Application**: A user's record of an opportunity, including company, role,
-  status, date applied, optional notes, and ownership information.
+- ***Job Application**: A user's record of an opportunity, including company, role, 
+  status, date applied, optional resume, timestamps, and ownership information. 
+  Follow-up notes are associated with the application through the separate Follow-up 
+  Note entity.
+
 - **Application Status**: Applied, Screening, Interview, Offer, Rejected, or
   Withdrawn.
 - **Follow-up Note**: Optional user-authored context associated with one application.
@@ -215,13 +263,15 @@ verify that an owned application no longer appears.
   demonstrated with valid, invalid, and unauthenticated scenarios.
 - **SC-002**: A signed-in user can create, view, edit, status-update, and delete an
   application, with each change retained or rejected according to validation rules.
-- **SC-003**: Automated or documented acceptance tests cover every P1 user story
-  and the P2 deletion story before the five-week project is submitted.
-- **SC-004**: Authorization testing confirms that a user cannot list, read, update,
-  or delete another user's application record.
-- **SC-005**: All five CRUD application endpoints return documented success and
-  failure behavior for authenticated, unauthenticated, valid, invalid, and
-  unauthorized requests.
+- **SC-003**:Automated or documented acceptance tests cover every P1 user story and 
+  every P2 user story before the five-week project is submitted.
+- **SC-004**: Authorization testing confirms that a user cannot list, read, update, 
+  or delete another user's application records, follow-up notes, or resumes.
+- **SC-005**: The application demonstrates documented success and failure behavior
+  for authenticated, unauthenticated, valid, invalid, and unauthorized CRUD
+  operations across the selected implementation approach, whether Server Actions
+  or API Route Handlers are used, rather than requiring a specific set of five
+  REST endpoints.
 - **SC-006**: The application provides usable empty, loading, validation, success,
   and failure states for the core workflows on supported screen sizes.
 - **SC-007**: The final project remains within the defined MVP scope, with deferred
@@ -229,17 +279,20 @@ verify that an owned application no longer appears.
 
 ## Assumptions
 
-- Resume storage provides solely for storing an optional copy of a Resume without
-  allowing for edits or updates. This remains in scope.
-- Authentication will use Auth.js v5 or Clerk; the exact provider configuration and
-  authentication endpoints will be selected during planning.
+-* Each application may have one optional resume. The resume can be uploaded, viewed, 
+  downloaded, and replaced by the application owner. Resume files are stored privately 
+  and may only be accessed by the owner of the associated application.
+- Authentication uses Auth.js v5 with credentials-based authentication. Authentication 
+  configuration and session behavior are implementation details defined by the application 
+  architecture.
 - A user has one personal workspace and does not share application records with
   other users.
 - The initial release supports the six defined statuses and does not include custom
   statuses.
 - Follow-up notes are plain text and belong to one application.
-- Reminders, notifications, attachments (other than a single resume per application), resume management, analytics, imports,
-  exports, and calendar integrations are out of scope for this MVP.
+- Reminders, notifications, attachments other than the single resume supported for 
+  each application, analytics, imports, exports, and calendar integrations are out of 
+  scope for this MVP
 - The initial release is responsive for common desktop and mobile screen sizes.
-- Persistence and authorization details will be selected during planning while
-  preserving the endpoint behavior and privacy requirements defined here.
+- Persistence and authorization details will be selected during planning while preserving
+   the behavioral, validation, and privacy requirements defined here.

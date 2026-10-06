@@ -126,26 +126,9 @@ Validation errors must clearly identify the problem.
 
 ## Application API
 
-Application API routes should follow the existing project structure and API conventions.
+Authenticated application CRUD operations should follow the existing project structure and conventions. The project currently uses Server Actions for application create/read/update/delete flows, and may also expose API Route Handlers when a request/response interface is needed for a specific feature. Do not require a fixed set of five REST endpoint paths if the chosen implementation is valid and enforces the same authentication, ownership, validation, and error handling rules.
 
-The application API supports operations such as:
-
-- `GET /api/applications`
-  - Return applications belonging to the authenticated user.
-
-- `POST /api/applications`
-  - Create an application for the authenticated user.
-
-- `GET /api/applications/{id}`
-  - Return one application owned by the authenticated user.
-
-- `PATCH /api/applications/{id}`
-  - Update an application owned by the authenticated user.
-
-- `DELETE /api/applications/{id}`
-  - Delete an application owned by the authenticated user.
-
-API endpoints must:
+Application operations must:
 
 1. Verify authentication when authentication is required.
 2. Validate incoming data.

@@ -6,7 +6,7 @@
 
 ## Content Quality
 
-- [x] No unnecessary implementation details; explicitly requested CRUD endpoint contracts are included
+- [x] No unnecessary implementation details; CRUD behavior is specified without forcing a single REST contract
 - [x] Focused on user value and business needs
 - [x] Written for non-technical stakeholders, with a bounded endpoint contract for planning
 - [x] All mandatory sections completed
@@ -33,4 +33,6 @@
 
 - Authentication provider configuration and exact authentication endpoints are
   intentionally deferred to planning.
-- The requested application CRUD endpoints remain specified in FR-012.
+- CRUD behavior is intentionally described in FR-012 without requiring a fixed
+  set of five REST endpoints, since the current implementation uses Server
+  Actions and may also expose route handlers where appropriate.

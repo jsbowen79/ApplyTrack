@@ -22,6 +22,7 @@ import type {
   JobApplication,
   DeletedApplication,
   FormValues,
+  FollowUpNote,
 } from "@/lib/types";
 import { z } from "zod";
 
@@ -43,6 +44,10 @@ const applicationSchema = z.object({
       (date) => date <= new Date().toISOString().split("T")[0],
       "Date applied cannot be in the future.",
     ),
+});
+
+const followUpNoteSchema = z.object({
+  content: z.string().min(1).max(300).trim(),
 });
 
 const applicationUpdateSchema = z.object({
@@ -78,17 +83,62 @@ export async function updateNote(
   applicationId: number,
   noteId: number,
   content: string,
-) {
+): Promise<
+  | {
+      fieldErrors: {
+        content?: string[];
+      };
+    }
+  | FollowUpNote
+  | null
+> {
   const session = await auth();
   if (!session) throw new Error("Unauthorized");
   const userId = Number(session.user.id);
-  return updateFollowUpNote(applicationId, userId, noteId, content);
+
+  const parsedNote = followUpNoteSchema.safeParse({ content });
+  if (!parsedNote.success) {
+    const errorTree = z.treeifyError(parsedNote.error);
+    const errors = {
+      fieldErrors: {
+        content: errorTree.properties?.content?.errors,
+      },
+    };
+    return errors;
+  }
+  return updateFollowUpNote(
+    applicationId,
+    userId,
+    noteId,
+    parsedNote.data.content,
+  );
 }
 
-export async function addFollowUpNote(applicationId: number, content: string) {
+export async function addFollowUpNote(
+  applicationId: number,
+  content: string,
+): Promise<
+  | {
+      fieldErrors: {
+        content?: string[];
+      };
+    }
+  | FollowUpNote
+  | null
+> {
   const session = await auth();
   if (!session) throw new Error("Unauthorized");
   const userId = Number(session.user.id);
+  const parsedNote = followUpNoteSchema.safeParse({ content });
+  if (!parsedNote.success) {
+    const errorTree = z.treeifyError(parsedNote.error);
+    const errors = {
+      fieldErrors: {
+        content: errorTree.properties?.content?.errors,
+      },
+    };
+    return errors;
+  }
   return createFollowUpNote(applicationId, userId, content);
 }
 
