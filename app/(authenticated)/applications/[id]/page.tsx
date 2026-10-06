@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { getApplicationById } from "@/lib/applications-db";
 import { createPageMetadata } from "@/lib/metadata";
 import type { ApplicationStatus } from "@/lib/types";
+import ResumeViewer from "@/app/components/resume/ResumeViewer";
 
 export const metadata = createPageMetadata(
   "Application Details",
@@ -42,7 +43,10 @@ export default async function ApplicationPage({
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
-  const application = await getApplicationById(applicationId, Number(session.user.id));
+  const application = await getApplicationById(
+    applicationId,
+    Number(session.user.id),
+  );
   if (!application) notFound();
 
   return (
@@ -57,10 +61,16 @@ export default async function ApplicationPage({
       <div className="rounded-[12px_0_12px_0] border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
         <div className="flex items-start justify-between mb-4">
           <div>
-            <p className="text-lg font-semibold text-slate-900 dark:text-slate-50">{application.company}</p>
-            <p className="text-sm text-slate-600 dark:text-slate-400">{application.role}</p>
+            <p className="text-lg font-semibold text-slate-900 dark:text-slate-50">
+              {application.company}
+            </p>
+            <p className="text-sm text-slate-600 dark:text-slate-400">
+              {application.role}
+            </p>
           </div>
-          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyles[application.status]}`}>
+          <span
+            className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyles[application.status]}`}
+          >
             {application.status}
           </span>
         </div>
@@ -68,26 +78,27 @@ export default async function ApplicationPage({
         <dl className="space-y-3 border-t border-slate-100 pt-4 dark:border-slate-800">
           <div className="flex justify-between text-sm">
             <dt className="text-slate-500 dark:text-slate-400">Date Applied</dt>
-            <dd className="text-slate-700 dark:text-slate-200">{formatDate(application.dateApplied)}</dd>
+            <dd className="text-slate-700 dark:text-slate-200">
+              {formatDate(application.dateApplied)}
+            </dd>
           </div>
           <div className="flex justify-between text-sm">
             <dt className="text-slate-500 dark:text-slate-400">Created</dt>
-            <dd className="text-slate-700 dark:text-slate-200">{formatDate(application.createdAt)}</dd>
+            <dd className="text-slate-700 dark:text-slate-200">
+              {formatDate(application.createdAt)}
+            </dd>
           </div>
           <div className="flex justify-between text-sm">
             <dt className="text-slate-500 dark:text-slate-400">Last Updated</dt>
-            <dd className="text-slate-700 dark:text-slate-200">{formatDate(application.updatedAt)}</dd>
+            <dd className="text-slate-700 dark:text-slate-200">
+              {formatDate(application.updatedAt)}
+            </dd>
           </div>
           <div className="flex justify-between text-sm">
             <dt className="text-slate-500 dark:text-slate-400">Resume</dt>
             <dd>
               {application.resume ? (
-                <a
-                  href={`/api/applications/${application.id}/resume`}
-                  className="font-medium text-indigo-600 hover:text-indigo-700"
-                >
-                  {application.resume.split("/").pop() || "Download resume"}
-                </a>
+                <ResumeViewer applicationId={application.id} />
               ) : (
                 <span className="text-slate-500 dark:text-slate-400">None</span>
               )}
