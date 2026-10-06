@@ -36,7 +36,7 @@ export default function Login() {
       {error && (
         <div
           role="alert"
-          className="rounded-[10px_0_10px_0] border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300"
+          className="rounded-[10px_0_10px_0] border border-red-900 bg-red-50 p-3 text-sm text-red-900 dark:border-red-300 dark:bg-red-950 dark:text-red-300"
         >
           Incorrect email or password. Please try again.
         </div>
@@ -52,7 +52,7 @@ export default function Login() {
           type="email"
           autoComplete="email"
           onChange={(event) => setEmail(event.target.value)}
-          className="mt-1 w-full rounded-[5px_0_5px_0] border border-slate-300 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+          className="mt-1 w-full rounded-[5px_0_5px_0] border border-slate-500 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-100"
         />
       </div>
 
@@ -71,7 +71,7 @@ export default function Login() {
       <button
         type="submit"
         disabled={submitting}
-        className="w-full rounded-[10px_0_10px_0] bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 disabled:opacity-60"
+        className="w-full rounded-[10px_0_10px_0] bg-indigo-700 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-800 disabled:cursor-not-allowed"
       >
         {submitting ? "Signing in..." : "Log In"}
       </button>

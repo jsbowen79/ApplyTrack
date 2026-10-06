@@ -6,10 +6,10 @@ import dynamic from "next/dynamic";
 const PdfViewer = dynamic(() => import("./PdfViewer"), { ssr: false });
 
 const primaryButton =
-  "rounded-[10px_0_10px_0] bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:opacity-60";
+  "rounded-[10px_0_10px_0] bg-indigo-700 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 disabled:cursor-not-allowed";
 
 const secondaryButton =
-  "inline-flex rounded-[8px_0_8px_0] border border-indigo-200 bg-indigo-50 px-3.5 py-1.5 text-sm font-semibold text-indigo-700 transition-colors hover:border-indigo-300 hover:bg-indigo-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:border-indigo-900 dark:bg-indigo-950 dark:text-indigo-300 dark:hover:border-indigo-800 dark:hover:bg-indigo-900";
+  "inline-flex rounded-[8px_0_8px_0] border border-indigo-500 bg-indigo-50 px-3.5 py-1.5 text-sm font-semibold text-indigo-900 transition-colors hover:border-indigo-600 hover:bg-indigo-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 dark:border-indigo-500 dark:bg-indigo-950 dark:text-indigo-200 dark:hover:border-indigo-400 dark:hover:bg-indigo-900";
 
 export default function ResumeViewer({
   applicationId,
@@ -69,7 +69,7 @@ export default function ResumeViewer({
       {error && (
         <p
           role="alert"
-          className="mt-3 rounded-[10px_0_10px_0] border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300"
+          className="mt-3 rounded-[10px_0_10px_0] border border-red-900 bg-red-50 p-3 text-sm text-red-900 dark:border-red-300 dark:bg-red-950 dark:text-red-300"
         >
           {error}
         </p>
@@ -85,7 +85,7 @@ export default function ResumeViewer({
           <header className="flex shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900">
             <div>
               <h2 className="font-heading text-lg font-bold">Resume</h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
+              <p className="text-sm text-slate-700 dark:text-slate-300">
                 {resumeType === "application/pdf"
                   ? "PDF document"
                   : "Resume document"}
