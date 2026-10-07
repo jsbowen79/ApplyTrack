@@ -23,8 +23,10 @@ const dangerButton =
 
 export default function FollowUpNotes({
   applicationId,
+  readOnly = false,
 }: {
   applicationId: number;
+  readOnly?: boolean;
 }) {
   const [notes, setNotes] = useState<FollowUpNote[]>([]);
   const [newNote, setNewNote] = useState("");
@@ -149,40 +151,44 @@ export default function FollowUpNotes({
         Follow-up Notes
       </h2>
 
-      <div className="space-y-3">
-        <label htmlFor="new-note" className="sr-only">
-          New follow-up note
-        </label>
-        <textarea
-          id="new-note"
-          rows={3}
-          className={textareaClasses}
-          placeholder="Add a follow-up note..."
-          value={newNote}
-          onChange={(event) => setNewNote(event.target.value)}
-        />
+      {!readOnly && (
+        <div className="space-y-3">
+          <textarea
+            id="new-note"
+            aria-label="New follow-up note"
+            rows={3}
+            className={textareaClasses}
+            placeholder="Add a follow-up note..."
+            value={newNote}
+            onChange={(event) => setNewNote(event.target.value)}
+          />
 
-        <button type="button" className={primaryButton} onClick={handleAddNote}>
-          Add Note
-        </button>
+          <button
+            type="button"
+            className={primaryButton}
+            onClick={handleAddNote}
+          >
+            Add Note
+          </button>
 
-        {noteMessage && (
-          <p
-            role="status"
-            className="text-sm font-medium text-green-700 dark:text-green-400"
-          >
-            {noteMessage}
-          </p>
-        )}
-        {noteError && (
-          <p
-            role="alert"
-            className="text-sm font-medium text-red-600 dark:text-red-400"
-          >
-            {noteError}
-          </p>
-        )}
-      </div>
+          {noteMessage && (
+            <p
+              role="status"
+              className="text-sm font-medium text-green-700 dark:text-green-400"
+            >
+              {noteMessage}
+            </p>
+          )}
+          {noteError && (
+            <p
+              role="alert"
+              className="text-sm font-medium text-red-600 dark:text-red-400"
+            >
+              {noteError}
+            </p>
+          )}
+        </div>
+      )}
 
       {notes.length === 0 ? (
         <p className="mt-6 text-sm text-slate-500 dark:text-slate-400">
@@ -195,13 +201,11 @@ export default function FollowUpNotes({
               key={note.id}
               className="rounded-md border border-slate-200 border-l-4 border-l-indigo-600 bg-slate-50 p-4 dark:border-slate-800 dark:border-l-indigo-500 dark:bg-slate-950"
             >
-              {editingNoteId === note.id ? (
+              {!readOnly && editingNoteId === note.id ? (
                 <div className="space-y-3">
-                  <label htmlFor={`edit-note-${note.id}`} className="sr-only">
-                    Edit follow-up note
-                  </label>
                   <textarea
                     id={`edit-note-${note.id}`}
+                    aria-label="Edit follow-up note"
                     rows={3}
                     className={textareaClasses}
                     value={editedContent}
@@ -230,7 +234,7 @@ export default function FollowUpNotes({
                 </p>
               )}
 
-              {editingNoteId !== note.id && (
+              {!readOnly && editingNoteId !== note.id && (
                 <div className="mt-3 flex gap-2">
                   <button
                     type="button"

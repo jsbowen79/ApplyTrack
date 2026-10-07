@@ -222,6 +222,7 @@ This separation keeps database records and file storage responsibilities distinc
 
 -Under some conditions, replacing a resume can leave the previous file in Vercel Blob storage. Cleanup of the previous Blob file is a future improvement.
 -Could add specific functionality for tracking and alerting users about deadlines rather than just documenting them in notes.  
+- Add logic to reject duplicate applications. 
 
 ## Team
 
