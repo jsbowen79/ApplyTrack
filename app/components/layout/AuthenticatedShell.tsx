@@ -62,15 +62,15 @@ export default function AuthenticatedShell({
           <Image
             src="/nav-logo.webp"
             alt="ApplyTrack"
-            width={160}
-            height={44}
+            width={2172}
+            height={724}
             className="h-10 w-auto"
             priority
           />
         </Link>
 
         <div className="mt-6 flex items-center gap-3 rounded-[10px_0_10px_0] bg-slate-50 px-3 py-2.5 dark:bg-slate-900">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-sm font-semibold text-white">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-indigo-700 text-sm font-semibold text-white">
             {initial}
           </span>
           <span className="truncate text-sm font-medium text-slate-700 dark:text-slate-200">
@@ -89,7 +89,7 @@ export default function AuthenticatedShell({
                 aria-current={active ? "page" : undefined}
                 className={`flex items-center gap-3 rounded-[5px_0_5px_0] border-l-4 px-3 py-2 text-sm font-medium transition-colors ${
                   active
-                    ? "border-indigo-600 bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300"
+                    ? "border-indigo-600 bg-indigo-50 text-indigo-900 dark:bg-indigo-950 dark:text-indigo-200"
                     : "border-transparent text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-900"
                 }`}
               >
@@ -121,8 +121,8 @@ export default function AuthenticatedShell({
           <Image
             src="/nav-logo.webp"
             alt="ApplyTrack"
-            width={120}
-            height={32}
+            width={2172}
+            height={724}
             className="h-8 w-auto"
             priority
           />

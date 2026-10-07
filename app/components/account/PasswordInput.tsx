@@ -18,14 +18,14 @@ export default function PasswordInput({
       <input
         {...props}
         type={visible ? "text" : "password"}
-        className={`w-full rounded-[5px_0_5px_0] border border-slate-300 px-3 py-2 pr-11 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 ${className}`}
+        className={`w-full rounded-[5px_0_5px_0] border border-slate-500 px-3 py-2 pr-11 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-100 ${className}`}
       />
       <button
         type="button"
         onClick={() => setVisible((current) => !current)}
         aria-label={visible ? "Hide password" : "Show password"}
         aria-pressed={visible}
-        className="absolute right-1 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-[5px_0_5px_0] text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-indigo-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+        className="absolute right-1 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-[5px_0_5px_0] text-slate-700 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-indigo-500 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100"
       >
         {visible ? (
           <svg
