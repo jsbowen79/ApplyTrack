@@ -60,9 +60,15 @@ export default function NewApplicationForm({
         displayDate={true}
         onSubmit={handleCreate}
       />
-      {uploadError && <p className="text-red-800 dark:text-red-300">Failed to upload resume.</p>}
+      {uploadError && (
+        <p className="text-red-800 dark:text-red-300">
+          Failed to upload resume.
+        </p>
+      )}
       {databaseError && (
-        <p className="text-red-800 dark:text-red-300">Failed to create application.</p>
+        <p className="text-red-800 dark:text-red-300">
+          Failed to create application.
+        </p>
       )}
     </div>
   );

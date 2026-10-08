@@ -58,7 +58,8 @@ export default function DeleteApplicationPage() {
               Delete this application?
             </h1>
             <p className="text-sm text-slate-700 dark:text-slate-300">
-              This will remove the application from your dashboard. You can undo it right after, but not later.
+              This will remove the application from your dashboard. You can undo
+              it right after, but not later.
             </p>
             <div className="flex gap-3">
               <button

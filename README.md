@@ -119,16 +119,31 @@ The major parts of the application work together as follows:
 
 Resume files follow a separate storage path:
 
-Client / Server Action
+Resume Storage
+    Client/Server Action
+            │
+            ▼
+    Vercel Blob (store file)
+            │
+            ▼
+    NeonPostgreSQL (store BLOB path)
+
+
+
+Resume Retrieval
+    Client / Server Action
         │
         ▼
-   Vercel Blob
+    Resume API Route
         │
         ▼
-  Resume API Route
+    Neon PostgreSQL (retrieve BLOB path)
         │
         ▼
-     Client PDF
+    Vercel Blob (retrieve file)
+        │
+        ▼
+    Client PDF
 ```
 
 ### Application layers
@@ -220,8 +235,8 @@ This separation keeps database records and file storage responsibilities distinc
 
 ## Known issues and future improvements
 
--Under some conditions, replacing a resume can leave the previous file in Vercel Blob storage. Cleanup of the previous Blob file is a future improvement.
--Could add specific functionality for tracking and alerting users about deadlines rather than just documenting them in notes.  
+- Under some conditions, replacing a resume can leave the previous file in Vercel Blob storage. Cleanup of the previous Blob file is a future improvement.
+- Could add specific functionality for tracking and alerting users about deadlines rather than just documenting them in notes.  
 - Add logic to reject duplicate applications. 
 
 ## Team
