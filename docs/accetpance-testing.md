@@ -126,13 +126,13 @@ Run Lighthouse testing for each publicly accessible and authenticated page. Reco
 
 | Page                     | Performance | Accessibility | Best Practices | SEO | Contrast / Accessibility Notes | Pass/Fail |
 | ------------------------ | ----------: | ------------: | -------------: | --: | ------------------------------ | --------- |
-| Home (`/`)               |          71 |           100 |            100 |  63 | Vercell-blocked from indexing  | Pass      |
-| Login (`/login`)         |          70 |           100 |            100 |  63 |                                | Pass      |
-| Register (`/register`)   |          71 |           100 |            100 |  63 |                                | Pass      |
-| Dashboard (`/dashboard`) |          71 |           100 |            100 |  63 | Vercell-blocked from indexing  | Pass      |
-| Application Details      |          71 |           100 |            100 |  63 | Vercell-blocked from indexing  | Pass      |
-| Add Application          |          71 |           100 |            100 |  63 |                                | Pass      |
-| Edit Application         |          59 |           100 |            100 |  63 |                                | Pass      |
+| Home (`/`)               |          98 |           100 |            100 | 100 |                                | Pass      |
+| Login (`/login`)         |         100 |           100 |            100 |  63 | blocked from indexing          | Pass      |
+| Register (`/register`)   |         100 |           100 |            100 |  63 | blocked from indexing          | Pass      |
+| Dashboard (`/dashboard`) |         100 |           100 |            100 |  63 | blocked from indexing          | Pass      |
+| Application Details      |          97 |           100 |            100 |  63 | blocked from indexing          | Pass      |
+| Add Application          |          99 |           100 |            100 |  63 | blocked from indexing          | Pass      |
+| Edit Application         |         100 |           100 |            100 |  63 | blocked from indexing          | Pass      |
 
 ### 10.2 Contrast Testing
 
@@ -212,5 +212,5 @@ Overall Acceptance Test Result:
 Pass — All required tests passed
 
 Tester: Team test
-Date: 10/7/2026
-Application Version / Commit:
+Date: 10/8/2026
+Application Version / Commit: PR 55 on Production https://apply-track-beta.vercel.app/
