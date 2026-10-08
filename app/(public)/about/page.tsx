@@ -3,7 +3,6 @@ import { createPageMetadata } from "@/lib/metadata";
 export const metadata = createPageMetadata(
   "About",
   "Learn more about ApplyTrack.",
-  true,
 );
 
 export default function AboutPage() {
