@@ -34,10 +34,20 @@ export async function GET(
     return NextResponse.json({ error: "Resume not found" }, { status: 404 });
   }
 
+  const blobContentType = blob.blob.contentType;
+  const isUnknownContentType =
+    !blobContentType ||
+    blobContentType.split(";")[0].trim().toLowerCase() ===
+      "application/octet-stream";
+  const contentType =
+    isUnknownContentType && application.resume.toLowerCase().endsWith(".pdf")
+      ? "application/pdf"
+      : (blobContentType ?? "application/octet-stream");
+
   return new Response(blob.stream, {
     headers: {
-      "Content-Type": blob.blob.contentType ?? "application/octet-stream",
-      "Content-Disposition": `attachment; filename="${application.resume.split("/").pop()}"`,
+      "Content-Type": contentType,
+      "Content-Disposition": `inline; filename="${application.resume}"`,
     },
   });
 }

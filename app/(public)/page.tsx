@@ -63,10 +63,9 @@ export default function Home() {
             <h1 className="font-heading text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50 sm:text-5xl">
               Track every application. Land the right offer.
             </h1>
-            <p className="mt-4 text-lg text-slate-600 dark:text-slate-400">
-              ApplyTrack keeps your job search organized – one dashboard for
-              every company, role, and status, so nothing slips through the
-              cracks.
+            <p className="mt-4 text-lg text-slate-700 dark:text-slate-300">
+              ApplyTrack keeps your job search organized – one dashboard for every
+              company, role, and status, so nothing slips through the cracks.
             </p>
 
             <div
@@ -92,13 +91,13 @@ export default function Home() {
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
               <Link
                 href="/register"
-                className="rounded-[10px_0_10px_0] bg-indigo-600 px-6 py-3 text-center font-semibold text-white transition-colors hover:bg-indigo-700"
+                className="rounded-[10px_0_10px_0] bg-indigo-700 px-6 py-3 text-center font-semibold text-white transition-colors hover:bg-indigo-800"
               >
                 Get started
               </Link>
               <Link
                 href="/login"
-                className="rounded-[10px_0_10px_0] border border-slate-300 px-6 py-3 text-center font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900"
+                className="rounded-[10px_0_10px_0] border border-slate-500 px-6 py-3 text-center font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-500 dark:text-slate-200 dark:hover:bg-slate-900"
               >
                 Log in
               </Link>
@@ -134,7 +133,7 @@ export default function Home() {
                 <h3 className="font-heading text-lg font-bold text-slate-900 dark:text-slate-50">
                   {feature.title}
                 </h3>
-                <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">
+                <p className="mt-2 text-sm leading-6 text-slate-700 dark:text-slate-300">
                   {feature.body}
                 </p>
               </div>
@@ -154,7 +153,7 @@ export default function Home() {
               <li key={step.title} className="flex gap-4">
                 <span
                   aria-hidden="true"
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-sm font-semibold text-white"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-indigo-700 text-sm font-semibold text-white"
                 >
                   {index + 1}
                 </span>
@@ -162,7 +161,7 @@ export default function Home() {
                   <h3 className="font-heading text-lg font-bold text-slate-900 dark:text-slate-50">
                     {step.title}
                   </h3>
-                  <p className="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-400">
+                  <p className="mt-1 text-sm leading-6 text-slate-700 dark:text-slate-300">
                     {step.body}
                   </p>
                 </div>
@@ -174,23 +173,23 @@ export default function Home() {
 
       {/* Closing call to action */}
       <section className="px-6 py-20">
-        <div className="mx-auto max-w-3xl rounded-[12px_0_12px_0] bg-indigo-600 px-6 py-12 text-center">
+        <div className="mx-auto max-w-3xl rounded-[12px_0_12px_0] bg-indigo-800 px-6 py-12 text-center">
           <h2 className="font-heading text-3xl font-bold tracking-tight text-white">
             Ready to organize your search?
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-indigo-100">
+          <p className="mx-auto mt-3 max-w-xl text-white">
             Create an account and add your first application in a minute.
           </p>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
             <Link
               href="/register"
-              className="rounded-[10px_0_10px_0] bg-white px-6 py-3 font-semibold text-indigo-700 transition-colors hover:bg-indigo-50"
+              className="rounded-[10px_0_10px_0] bg-white px-6 py-3 font-semibold text-indigo-800 transition-colors hover:bg-indigo-50"
             >
               Get started
             </Link>
             <Link
               href="/login"
-              className="rounded-[10px_0_10px_0] border border-white/50 px-6 py-3 font-semibold text-white transition-colors hover:bg-indigo-500"
+              className="rounded-[10px_0_10px_0] border border-white px-6 py-3 font-semibold text-white transition-colors hover:bg-indigo-700"
             >
               Log in
             </Link>

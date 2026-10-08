@@ -13,12 +13,12 @@ export const metadata = createPageMetadata(
 );
 
 const statusSummaryStyles: Record<ApplicationStatus, string> = {
-  Applied: "bg-blue-100 text-blue-700",
+  Applied: "bg-blue-100 text-blue-900",
   Screening: "bg-slate-100 text-slate-700",
-  Interview: "bg-amber-100 text-amber-700",
-  Offer: "bg-green-100 text-green-700",
-  Rejected: "bg-red-100 text-red-700",
-  Withdrawn: "bg-violet-100 text-violet-700",
+  Interview: "bg-amber-100 text-amber-900",
+  Offer: "bg-green-100 text-green-900",
+  Rejected: "bg-red-100 text-red-900",
+  Withdrawn: "bg-violet-100 text-violet-900",
 };
 
 const IN_PROGRESS: ApplicationStatus[] = ["Applied", "Screening", "Interview"];
@@ -71,14 +71,14 @@ export default async function DashboardPage() {
           <h1 className="font-heading text-2xl font-bold mb-1 text-slate-900 dark:text-slate-50">
             Your Applications
           </h1>
-          <p className="text-slate-500 dark:text-slate-400">
+          <p className="text-slate-700 dark:text-slate-300">
             {applications.length} application
             {applications.length === 1 ? "" : "s"} tracked
           </p>
         </div>
         <Link
           href="/applications/new"
-          className="rounded-[10px_0_10px_0] bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700"
+          className="rounded-[10px_0_10px_0] bg-indigo-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-800"
         >
           Add Application
         </Link>
@@ -95,7 +95,7 @@ export default async function DashboardPage() {
                 <dd className="font-heading text-3xl font-bold text-slate-900 dark:text-slate-50">
                   {stat.value}
                 </dd>
-                <dt className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                <dt className="mt-1 text-sm text-slate-700 dark:text-slate-300">
                   {stat.label}
                 </dt>
               </div>
@@ -119,12 +119,12 @@ export default async function DashboardPage() {
 
       {applications.length === 0 ? (
         <div className="text-center py-16 border border-dashed border-slate-300 rounded-[10px_0_10px_0]">
-          <p className="text-slate-600 mb-4">
+          <p className="text-slate-700 mb-4 dark:text-slate-300">
             You haven&apos;t added any applications yet.
           </p>
           <Link
             href="/applications/new"
-            className="inline-block rounded-[8px_0_8px_0] bg-indigo-600 text-white px-5 py-2.5 font-semibold hover:bg-indigo-700"
+            className="inline-block rounded-[8px_0_8px_0] bg-indigo-700 text-white px-5 py-2.5 font-semibold hover:bg-indigo-800"
           >
             Add your first application
           </Link>

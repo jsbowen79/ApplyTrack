@@ -73,12 +73,10 @@ export default function Register() {
             value={name}
             autoComplete="name"
             onChange={(event) => setName(event.target.value)}
-            className="mt-1 w-full rounded-[5px_0_5px_0] border border-slate-300 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+            className="mt-1 w-full rounded-[5px_0_5px_0] border border-slate-500 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-100"
           />
           {fieldErrors.name && (
-            <p className="mt-1 text-xs text-red-600 dark:text-red-400">
-              {fieldErrors.name[0]}
-            </p>
+            <p className="mt-1 text-xs text-red-800 dark:text-red-300">{fieldErrors.name[0]}</p>
           )}
         </div>
 
@@ -95,12 +93,10 @@ export default function Register() {
             value={email}
             autoComplete="email"
             onChange={(event) => setEmail(event.target.value)}
-            className="mt-1 w-full rounded-[5px_0_5px_0] border border-slate-300 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+            className="mt-1 w-full rounded-[5px_0_5px_0] border border-slate-500 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-100"
           />
           {fieldErrors.email && (
-            <p className="mt-1 text-xs text-red-600 dark:text-red-400">
-              {fieldErrors.email[0]}
-            </p>
+            <p className="mt-1 text-xs text-red-800 dark:text-red-300">{fieldErrors.email[0]}</p>
           )}
         </div>
 
@@ -118,9 +114,7 @@ export default function Register() {
             onChange={(event) => setPassword(event.target.value)}
           />
           {fieldErrors.password && (
-            <p className="mt-1 text-xs text-red-600 dark:text-red-400">
-              {fieldErrors.password[0]}
-            </p>
+            <p className="mt-1 text-xs text-red-800 dark:text-red-300">{fieldErrors.password[0]}</p>
           )}
         </div>
 
@@ -142,7 +136,7 @@ export default function Register() {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full rounded-[10px_0_10px_0] bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 disabled:opacity-60"
+          className="w-full rounded-[10px_0_10px_0] bg-indigo-700 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-800 disabled:cursor-not-allowed"
         >
           {submitting ? "Creating account..." : "Register"}
         </button>
