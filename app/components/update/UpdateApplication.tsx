@@ -74,14 +74,22 @@ export default function UpdateApplication({ id }: { id: number }) {
 
   if (loadError) {
     return (
-      <p className="text-red-800 dark:text-red-300">Failed to load application. Please try again later.</p>
+      <p className="text-red-800 dark:text-red-300">
+        Failed to load application. Please try again later.
+      </p>
     );
   }
   if (notFoundError) {
-    return <p className="text-red-800 dark:text-red-300">Application not found.</p>;
+    return (
+      <p className="text-red-800 dark:text-red-300">Application not found.</p>
+    );
   }
   if (!application) {
-    return <p className="text-sm text-slate-700 dark:text-slate-300">Loading application...</p>;
+    return (
+      <p className="text-sm text-slate-700 dark:text-slate-300">
+        Loading application...
+      </p>
+    );
   }
 
   return (
@@ -93,7 +101,8 @@ export default function UpdateApplication({ id }: { id: number }) {
       )}
       {updateStatus === "resumeFailure" && (
         <div className="rounded-[10px_0_10px_0] border border-amber-900 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-300 dark:bg-amber-950 dark:text-amber-300">
-          Application updated, but the resume upload failed. Try uploading it again.
+          Application updated, but the resume upload failed. Try uploading it
+          again.
         </div>
       )}
       {updateStatus === "error" && (

@@ -114,7 +114,10 @@ export default function ResumeViewer({
               </div>
             ) : (
               <div className="mx-auto max-w-lg rounded-[12px_0_12px_0] border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                <p role="alert" className="text-sm text-slate-700 dark:text-slate-200">
+                <p
+                  role="alert"
+                  className="text-sm text-slate-700 dark:text-slate-200"
+                >
                   This resume cannot be displayed in the browser.
                 </p>
               </div>

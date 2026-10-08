@@ -76,7 +76,9 @@ export default function Register() {
             className="mt-1 w-full rounded-[5px_0_5px_0] border border-slate-500 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-100"
           />
           {fieldErrors.name && (
-            <p className="mt-1 text-xs text-red-800 dark:text-red-300">{fieldErrors.name[0]}</p>
+            <p className="mt-1 text-xs text-red-800 dark:text-red-300">
+              {fieldErrors.name[0]}
+            </p>
           )}
         </div>
 
@@ -96,7 +98,9 @@ export default function Register() {
             className="mt-1 w-full rounded-[5px_0_5px_0] border border-slate-500 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-100"
           />
           {fieldErrors.email && (
-            <p className="mt-1 text-xs text-red-800 dark:text-red-300">{fieldErrors.email[0]}</p>
+            <p className="mt-1 text-xs text-red-800 dark:text-red-300">
+              {fieldErrors.email[0]}
+            </p>
           )}
         </div>
 
@@ -114,7 +118,9 @@ export default function Register() {
             onChange={(event) => setPassword(event.target.value)}
           />
           {fieldErrors.password && (
-            <p className="mt-1 text-xs text-red-800 dark:text-red-300">{fieldErrors.password[0]}</p>
+            <p className="mt-1 text-xs text-red-800 dark:text-red-300">
+              {fieldErrors.password[0]}
+            </p>
           )}
         </div>
 

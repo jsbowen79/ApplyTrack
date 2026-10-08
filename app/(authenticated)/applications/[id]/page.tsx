@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { getApplicationById } from "@/lib/applications-db";
 import { createPageMetadata } from "@/lib/metadata";
 import type { ApplicationStatus } from "@/lib/types";
+import FollowUpNotes from "@/app/components/update/FollowUpNotes";
 import ResumeViewer from "@/app/components/resume/ResumeViewer";
 
 export const metadata = createPageMetadata(
@@ -121,6 +122,7 @@ export default async function ApplicationPage({
           </Link>
         </div>
       </div>
+      <FollowUpNotes applicationId={application.id} readOnly />
     </main>
   );
 }

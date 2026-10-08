@@ -32,7 +32,10 @@ export default function PdfViewer({ url }: { url: string }) {
   }, []);
 
   return (
-    <div ref={containerRef} className="flex w-full min-w-0 justify-center overflow-hidden">
+    <div
+      ref={containerRef}
+      className="flex w-full min-w-0 justify-center overflow-hidden"
+    >
       {error ? (
         <p role="alert">{error}</p>
       ) : (

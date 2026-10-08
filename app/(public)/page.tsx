@@ -64,8 +64,9 @@ export default function Home() {
               Track every application. Land the right offer.
             </h1>
             <p className="mt-4 text-lg text-slate-700 dark:text-slate-300">
-              ApplyTrack keeps your job search organized – one dashboard for every
-              company, role, and status, so nothing slips through the cracks.
+              ApplyTrack keeps your job search organized – one dashboard for
+              every company, role, and status, so nothing slips through the
+              cracks.
             </p>
 
             <div
