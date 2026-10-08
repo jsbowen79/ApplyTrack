@@ -77,6 +77,11 @@ export default function FollowUpNotes({
       if (!note) {
         setNoteError("Unable to add note.");
         return;
+      } else if ("fieldErrors" in note) {
+        setNoteError(
+          note.fieldErrors.content?.join(", ") || "Invalid note content.",
+        );
+        return;
       }
 
       setNotes((currentNotes) => [note, ...currentNotes]);
@@ -115,6 +120,12 @@ export default function FollowUpNotes({
 
       if (!updatedNote) {
         setNoteError("Unable to update note.");
+        return;
+      } else if ("fieldErrors" in updatedNote) {
+        setNoteError(
+          updatedNote.fieldErrors.content?.join(", ") ||
+            "Invalid note content.",
+        );
         return;
       }
 

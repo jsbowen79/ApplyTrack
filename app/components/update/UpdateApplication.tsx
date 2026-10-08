@@ -53,7 +53,10 @@ export default function UpdateApplication({ id }: { id: number }) {
       const result = await saveApplicationUpdate(id, update);
       if (result && !("fieldErrors" in result)) {
         if (values.resumeFile) {
-          const resumeUpdate = await uploadApplicationResume(result.id, values.resumeFile);
+          const resumeUpdate = await uploadApplicationResume(
+            result.id,
+            values.resumeFile,
+          );
           setUpdateStatus(resumeUpdate?.resume ? "success" : "resumeFailure");
         } else {
           setUpdateStatus("success");

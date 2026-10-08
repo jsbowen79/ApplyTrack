@@ -39,7 +39,9 @@ export default function ApplicationForm(input: ApplicationFormProps) {
     input.initialValues.dateApplied,
   );
 
-  const submitLabel = input.displayDate ? "Save Application" : "Update Application";
+  const submitLabel = input.displayDate
+    ? "Save Application"
+    : "Update Application";
 
   return (
     <form
@@ -50,7 +52,10 @@ export default function ApplicationForm(input: ApplicationFormProps) {
       className="space-y-4"
     >
       <div>
-        <label htmlFor="company" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+        <label
+          htmlFor="company"
+          className="block text-sm font-medium text-slate-700 dark:text-slate-300"
+        >
           Company
         </label>
         <input
@@ -67,7 +72,10 @@ export default function ApplicationForm(input: ApplicationFormProps) {
       </div>
 
       <div>
-        <label htmlFor="role" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+        <label
+          htmlFor="role"
+          className="block text-sm font-medium text-slate-700 dark:text-slate-300"
+        >
           Role
         </label>
         <input
@@ -84,7 +92,10 @@ export default function ApplicationForm(input: ApplicationFormProps) {
       </div>
 
       <div>
-        <label htmlFor="status" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+        <label
+          htmlFor="status"
+          className="block text-sm font-medium text-slate-700 dark:text-slate-300"
+        >
           Status
         </label>
         <select
@@ -106,7 +117,10 @@ export default function ApplicationForm(input: ApplicationFormProps) {
 
       {input.displayDate && (
         <div>
-          <label htmlFor="dateApplied" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+          <label
+            htmlFor="dateApplied"
+            className="block text-sm font-medium text-slate-700 dark:text-slate-300"
+          >
             Date Applied
           </label>
           <input
@@ -125,7 +139,10 @@ export default function ApplicationForm(input: ApplicationFormProps) {
       )}
 
       <div>
-        <label htmlFor="resume" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+        <label
+          htmlFor="resume"
+          className="block text-sm font-medium text-slate-700 dark:text-slate-300"
+        >
           Resume
         </label>
         <input
