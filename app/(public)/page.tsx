@@ -1,5 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import { createPageMetadata } from "@/lib/metadata";
+
+export const metadata = createPageMetadata(
+  "Home",
+  "Track every application. Land the right offer.",
+);
 
 const features = [
   {
